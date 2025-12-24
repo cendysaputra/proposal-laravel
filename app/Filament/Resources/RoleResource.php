@@ -91,16 +91,16 @@ class RoleResource extends Resource
                             ->columnSpanFull(),
                     ]),
 
-                Forms\Components\Section::make('Permissions')
+                Forms\Components\Section::make('Capabilities')
                     ->schema([
                         Forms\Components\CheckboxList::make('permissions')
-                            ->label('Assign Permissions')
+                            ->label('Assign Capabilities')
                             ->relationship('permissions', 'name')
                             ->options(\App\Models\Permission::all()->pluck('name', 'id'))
                             ->columns(3)
                             ->searchable()
                             ->bulkToggleable()
-                            ->helperText('Select permissions for this role')
+                            ->helperText('Select capabilities for this role')
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -130,7 +130,7 @@ class RoleResource extends Resource
                     ->badge()
                     ->color('info'),
                 Tables\Columns\TextColumn::make('permissions_count')
-                    ->label('Permissions')
+                    ->label('Capabilities')
                     ->counts('permissions')
                     ->sortable()
                     ->badge()
