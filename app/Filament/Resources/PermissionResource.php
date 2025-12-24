@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\InvoiceResource\Pages;
-use App\Filament\Resources\InvoiceResource\RelationManagers;
-use App\Models\Invoice;
+use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Resources\PermissionResource\RelationManagers;
+use App\Models\Permission;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,44 +13,48 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class InvoiceResource extends Resource
+class PermissionResource extends Resource
 {
-    protected static ?string $model = Invoice::class;
+    protected static ?string $model = Permission::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function canViewAny(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('view-invoices');
+        return auth()->check() && auth()->user()->hasPermission('view-permissions');
     }
 
     public static function canCreate(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('create-invoices');
+        return auth()->check() && auth()->user()->hasPermission('manage-permissions');
     }
 
     public static function canEdit($record): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('edit-invoices');
+        return auth()->check() && auth()->user()->hasPermission('manage-permissions');
     }
 
     public static function canDelete($record): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('delete-invoices');
+        return auth()->check() && auth()->user()->hasPermission('manage-permissions');
     }
 
     public static function canView($record): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('view-invoices');
+        return auth()->check() && auth()->user()->hasPermission('view-permissions');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                ->required()
-                ->maxLength(255),
+                Forms\Components\TextInput::make('name')
+                    ->required(),
+                Forms\Components\TextInput::make('slug')
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('group'),
             ]);
     }
 
@@ -58,6 +62,12 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('group')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -90,9 +100,9 @@ class InvoiceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListInvoices::route('/'),
-            'create' => Pages\CreateInvoice::route('/create'),
-            'edit' => Pages\EditInvoice::route('/{record}/edit'),
+            'index' => Pages\ListPermissions::route('/'),
+            'create' => Pages\CreatePermission::route('/create'),
+            'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }
 }

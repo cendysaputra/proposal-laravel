@@ -23,4 +23,32 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        return $this->permissions()->where('slug', $permission)->exists();
+    }
+
+    public function givePermissionTo(string|Permission $permission): void
+    {
+        if (is_string($permission)) {
+            $permission = Permission::where('slug', $permission)->firstOrFail();
+        }
+
+        $this->permissions()->syncWithoutDetaching([$permission->id]);
+    }
+
+    public function revokePermissionTo(string|Permission $permission): void
+    {
+        if (is_string($permission)) {
+            $permission = Permission::where('slug', $permission)->firstOrFail();
+        }
+
+        $this->permissions()->detach($permission->id);
+    }
 }

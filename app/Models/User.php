@@ -61,4 +61,42 @@ class User extends Authenticatable
     {
         return $this->roles()->whereIn('slug', $roles)->exists();
     }
+
+    public function hasPermission(string $permission): bool
+    {
+        return $this->roles()
+            ->whereHas('permissions', function ($query) use ($permission) {
+                $query->where('slug', $permission);
+            })
+            ->exists();
+    }
+
+    public function hasAnyPermission(array $permissions): bool
+    {
+        return $this->roles()
+            ->whereHas('permissions', function ($query) use ($permissions) {
+                $query->whereIn('slug', $permissions);
+            })
+            ->exists();
+    }
+
+    public function hasAllPermissions(array $permissions): bool
+    {
+        foreach ($permissions as $permission) {
+            if (!$this->hasPermission($permission)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function getAllPermissions()
+    {
+        return $this->roles()
+            ->with('permissions')
+            ->get()
+            ->pluck('permissions')
+            ->flatten()
+            ->unique('id');
+    }
 }

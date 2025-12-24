@@ -26,6 +26,31 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'User Management';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('view-users');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('create-users');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('edit-users');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('delete-users');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('view-users');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

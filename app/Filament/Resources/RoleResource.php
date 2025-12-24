@@ -26,6 +26,31 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'User Management';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('view-roles');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('create-roles');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('edit-roles');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('delete-roles');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth()->check() && auth()->user()->hasPermission('view-roles');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -65,6 +90,19 @@ class RoleResource extends Resource
                             ->helperText('Brief description of the role and its permissions')
                             ->columnSpanFull(),
                     ]),
+
+                Forms\Components\Section::make('Permissions')
+                    ->schema([
+                        Forms\Components\CheckboxList::make('permissions')
+                            ->label('Assign Permissions')
+                            ->relationship('permissions', 'name')
+                            ->options(\App\Models\Permission::all()->pluck('name', 'id'))
+                            ->columns(3)
+                            ->searchable()
+                            ->bulkToggleable()
+                            ->helperText('Select permissions for this role')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -91,6 +129,12 @@ class RoleResource extends Resource
                     ->sortable()
                     ->badge()
                     ->color('info'),
+                Tables\Columns\TextColumn::make('permissions_count')
+                    ->label('Permissions')
+                    ->counts('permissions')
+                    ->sortable()
+                    ->badge()
+                    ->color('success'),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean()
