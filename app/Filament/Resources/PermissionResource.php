@@ -25,11 +25,13 @@ class PermissionResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Capabilities';
 
+    protected static ?string $slug = 'capabilities';
+
     protected static ?string $navigationGroup = 'User Management';
 
     public static function canViewAny(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('view-permissions');
+        return auth()->check();
     }
 
     public static function canCreate(): bool
@@ -49,7 +51,7 @@ class PermissionResource extends Resource
 
     public static function canView($record): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('view-permissions');
+        return auth()->check();
     }
 
     public static function form(Form $form): Form

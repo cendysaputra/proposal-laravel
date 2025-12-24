@@ -10,6 +10,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -27,9 +28,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->brandName('Administrasi Digital')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Rose,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -54,6 +56,34 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn () => '<style>
+                    /* Sidebar border */
+                    .fi-sidebar {
+                        border-right: 1px solid rgb(229 231 235) !important;
+                    }
+                    .dark .fi-sidebar {
+                        border-right: 1px solid rgb(55 65 81) !important;
+                    }
+
+                    /* Brand name color - multiple selectors to ensure it works */
+                    .fi-sidebar-header .fi-sidebar-brand,
+                    .fi-sidebar .fi-logo,
+                    .fi-sidebar nav > div > a,
+                    aside nav > div > a {
+                        color: rgb(225 29 72) !important;
+                        font-weight: 600 !important;
+                    }
+
+                    .dark .fi-sidebar-header .fi-sidebar-brand,
+                    .dark .fi-sidebar .fi-logo,
+                    .dark .fi-sidebar nav > div > a,
+                    .dark aside nav > div > a {
+                        color: rgb(251 113 133) !important;
+                    }
+                </style>'
+            );
     }
 }
