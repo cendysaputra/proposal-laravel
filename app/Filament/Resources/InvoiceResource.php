@@ -23,7 +23,9 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('title')
+                ->required()
+                ->maxLength(255),
             ]);
     }
 
