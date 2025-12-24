@@ -64,6 +64,18 @@ class UserResource extends Resource
                             ->same('password')
                             ->maxLength(255),
                     ])->columns(2),
+
+                Forms\Components\Section::make('Roles & Permissions')
+                    ->schema([
+                        Forms\Components\CheckboxList::make('roles')
+                            ->label('Assign Roles')
+                            ->relationship('roles', 'name')
+                            ->options(\App\Models\Role::where('is_active', true)->pluck('name', 'id'))
+                            ->descriptions(\App\Models\Role::where('is_active', true)->pluck('description', 'id')->toArray())
+                            ->columns(2)
+                            ->helperText('Select one or more roles for this user')
+                            ->searchable(),
+                    ]),
             ]);
     }
 
@@ -81,6 +93,13 @@ class UserResource extends Resource
                     ->sortable()
                     ->copyable()
                     ->icon('heroicon-m-envelope'),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Roles')
+                    ->badge()
+                    ->color(fn ($record, $state) => $record->roles->pluck('color')->first() ?? 'gray')
+                    ->separator(',')
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label('Email Verified')
                     ->dateTime('d M Y, H:i')
