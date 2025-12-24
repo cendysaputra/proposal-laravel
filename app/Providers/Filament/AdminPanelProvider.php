@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Ruang Artefak')
+            ->brandName('Administrasi Digital')
             ->colors([
                 'primary' => Color::Amber,
             ])
