@@ -1,0 +1,285 @@
+================================================================================
+              PANDUAN MEMBUAT CUSTOM POST DI LARAVEL + FILAMENT
+================================================================================
+
+LANGKAH 1: BUAT MODEL DAN MIGRATION
+--------------------------------------------------------------------------------
+
+1. Jalankan perintah artisan untuk membuat model + migration sekaligus:
+
+   php artisan make:model NamaPost -m
+
+   Contoh:
+   php artisan make:model Article -m
+   php artisan make:model Product -m
+   php artisan make:model Portfolio -m
+
+2. File yang akan dibuat:
+   - app/Models/NamaPost.php (Model)
+   - database/migrations/xxxx_create_nama_posts_table.php (Migration)
+
+
+LANGKAH 2: EDIT MIGRATION
+--------------------------------------------------------------------------------
+
+1. Buka file migration di folder database/migrations/
+2. Tambahkan kolom yang diperlukan di method up():
+
+   Contoh:
+   Schema::create('articles', function (Blueprint $table) {
+       $table->id();
+       $table->string('title');                    // Judul
+       $table->text('content')->nullable();        // Isi konten
+       $table->string('slug')->unique();           // URL friendly
+       $table->string('status')->default('draft'); // Status
+       $table->string('image')->nullable();        // Gambar
+       $table->timestamp('published_at')->nullable(); // Tanggal publish
+       $table->timestamps();                       // created_at & updated_at
+   });
+
+3. Tipe kolom yang sering dipakai:
+   - string('nama')           : Text pendek (max 255 karakter)
+   - text('nama')             : Text panjang
+   - integer('nama')          : Angka bulat
+   - boolean('nama')          : True/False
+   - date('nama')             : Tanggal
+   - timestamp('nama')        : Tanggal + waktu
+   - decimal('harga', 8, 2)   : Angka desimal (untuk harga)
+   - json('nama')             : Data JSON
+
+
+LANGKAH 3: EDIT MODEL
+--------------------------------------------------------------------------------
+
+1. Buka file model di app/Models/
+2. Tambahkan $fillable dan $casts:
+
+   Contoh:
+   <?php
+
+   namespace App\Models;
+
+   use Illuminate\Database\Eloquent\Model;
+
+   class Article extends Model
+   {
+       protected $fillable = [
+           'title',
+           'content',
+           'slug',
+           'status',
+           'image',
+           'published_at',
+       ];
+
+       protected $casts = [
+           'published_at' => 'datetime',
+       ];
+   }
+
+
+LANGKAH 4: JALANKAN MIGRATION
+--------------------------------------------------------------------------------
+
+Jalankan perintah untuk membuat tabel di database:
+
+php artisan migrate
+
+Jika ada error, bisa rollback dulu:
+php artisan migrate:rollback
+
+Lalu edit migration dan migrate lagi.
+
+
+LANGKAH 5: BUAT FILAMENT RESOURCE
+--------------------------------------------------------------------------------
+
+1. Jalankan perintah untuk membuat Filament Resource:
+
+   php artisan make:filament-resource NamaPost --generate
+
+   Contoh:
+   php artisan make:filament-resource Article --generate
+   php artisan make:filament-resource Product --generate
+
+2. Parameter --generate akan otomatis membuat form fields berdasarkan kolom database
+
+3. File yang akan dibuat:
+   - app/Filament/Resources/NamaPostResource.php
+   - app/Filament/Resources/NamaPostResource/Pages/
+     * CreateNamaPost.php
+     * EditNamaPost.php
+     * ListNamaPosts.php
+
+
+LANGKAH 6: CUSTOM FILAMENT RESOURCE (Opsional)
+--------------------------------------------------------------------------------
+
+Buka file Resource yang dibuat untuk kustomisasi form dan tabel:
+
+1. Mengubah Form Fields:
+
+   public static function form(Form $form): Form
+   {
+       return $form->schema([
+           Forms\Components\TextInput::make('title')
+               ->required()
+               ->maxLength(255),
+
+           Forms\Components\Textarea::make('content')
+               ->rows(10),
+
+           Forms\Components\Select::make('status')
+               ->options([
+                   'draft' => 'Draft',
+                   'published' => 'Published',
+               ])
+               ->default('draft'),
+
+           Forms\Components\FileUpload::make('image')
+               ->image()
+               ->directory('articles'),
+
+           Forms\Components\DateTimePicker::make('published_at'),
+       ]);
+   }
+
+2. Mengubah Kolom Tabel:
+
+   public static function table(Table $table): Table
+   {
+       return $table->columns([
+           Tables\Columns\TextColumn::make('title')
+               ->searchable()
+               ->sortable(),
+
+           Tables\Columns\BadgeColumn::make('status')
+               ->colors([
+                   'secondary' => 'draft',
+                   'success' => 'published',
+               ]),
+
+           Tables\Columns\ImageColumn::make('image'),
+
+           Tables\Columns\TextColumn::make('published_at')
+               ->dateTime()
+               ->sortable(),
+       ]);
+   }
+
+
+LANGKAH 7: AKSES DI ADMIN PANEL
+--------------------------------------------------------------------------------
+
+1. Buat user admin (jika belum):
+   php artisan make:filament-user
+
+2. Jalankan server:
+   php artisan serve
+
+3. Akses admin panel:
+   http://localhost:8000/admin
+
+4. Menu untuk custom post akan otomatis muncul di sidebar
+
+
+KOMPONEN FILAMENT YANG SERING DIPAKAI
+--------------------------------------------------------------------------------
+
+FORM COMPONENTS:
+- TextInput          : Input text biasa
+- Textarea           : Text area/multiline
+- RichEditor         : WYSIWYG editor
+- MarkdownEditor     : Markdown editor
+- Select             : Dropdown select
+- Radio              : Radio buttons
+- Checkbox           : Checkbox
+- Toggle             : Toggle switch
+- DatePicker         : Pilih tanggal
+- DateTimePicker     : Pilih tanggal + waktu
+- FileUpload         : Upload file
+- ColorPicker        : Pilih warna
+- KeyValue           : Input key-value pairs
+- Repeater           : Form berulang
+
+TABLE COLUMNS:
+- TextColumn         : Tampilkan text
+- BadgeColumn        : Badge/label berwarna
+- ImageColumn        : Tampilkan gambar
+- IconColumn         : Tampilkan icon
+- BooleanColumn      : Tampilkan true/false
+- ColorColumn        : Tampilkan warna
+
+
+CONTOH LENGKAP: MEMBUAT POST ARTIKEL
+--------------------------------------------------------------------------------
+
+1. php artisan make:model Article -m
+
+2. Edit migration:
+   Schema::create('articles', function (Blueprint $table) {
+       $table->id();
+       $table->string('title');
+       $table->text('excerpt')->nullable();
+       $table->text('content');
+       $table->string('slug')->unique();
+       $table->string('featured_image')->nullable();
+       $table->string('category')->nullable();
+       $table->string('status')->default('draft');
+       $table->timestamp('published_at')->nullable();
+       $table->timestamps();
+   });
+
+3. Edit Model:
+   protected $fillable = [
+       'title', 'excerpt', 'content', 'slug',
+       'featured_image', 'category', 'status', 'published_at'
+   ];
+
+4. php artisan migrate
+
+5. php artisan make:filament-resource Article --generate
+
+6. Selesai! Akses di http://localhost:8000/admin
+
+
+TIPS & BEST PRACTICES
+--------------------------------------------------------------------------------
+
+1. Selalu gunakan nama singular untuk Model (Article, bukan Articles)
+2. Migration akan otomatis plural (articles, products)
+3. Gunakan nullable() untuk field yang tidak wajib diisi
+4. Tambahkan unique() untuk field yang harus unik (slug, email)
+5. Gunakan default() untuk set nilai default
+6. Untuk SEO-friendly URL, gunakan kolom 'slug'
+7. Gunakan status untuk manage draft/published
+8. Tambahkan searchable() dan sortable() di table columns untuk UX lebih baik
+
+
+TROUBLESHOOTING
+--------------------------------------------------------------------------------
+
+Q: Error "Base table or view not found"?
+A: Jalankan: php artisan migrate
+
+Q: Error "Mass assignment"?
+A: Tambahkan field ke $fillable di Model
+
+Q: Resource tidak muncul di menu?
+A: Cek apakah sudah ada di app/Filament/Resources/
+
+Q: Form field tidak muncul?
+A: Cek konfigurasi di method form() di Resource
+
+Q: Ingin reset database?
+A: php artisan migrate:fresh (HATI-HATI: Data akan hilang!)
+
+
+================================================================================
+                      SELAMAT MEMBUAT CUSTOM POST!
+================================================================================
+
+Untuk contoh yang sudah jadi, lihat:
+- Model: app/Models/Proposal.php
+- Migration: database/migrations/*_create_proposals_table.php
+- Resource: app/Filament/Resources/ProposalResource.php
