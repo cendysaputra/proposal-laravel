@@ -52,7 +52,9 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Invoice Information')
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Invoice Information')
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->label('Invoice Title')
@@ -190,15 +192,23 @@ class InvoiceResource extends Resource
                             ->columnSpanFull(),
                     ])
                     ->collapsible(),
-
-                Forms\Components\Section::make('Publishing')
-                    ->schema([
-                        Forms\Components\DateTimePicker::make('published_at')
-                            ->label('Publish Date')
-                            ->helperText('Leave empty for draft'),
                     ])
-                    ->collapsible()
-            ]);
+                    ->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Publishing')
+                            ->schema([
+                                Forms\Components\DateTimePicker::make('published_at')
+                                    ->label('Publish Date')
+                                    ->native(false)
+                                    ->helperText('Leave empty for draft'),
+                            ])
+                            ->collapsible(),
+                    ])
+                    ->columnSpan(['lg' => 1]),
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
