@@ -78,7 +78,7 @@ class InvoiceResource extends Resource
                         Forms\Components\TextInput::make('number_invoice')
                             ->label('Invoice Number')
                             ->required()
-                            ->placeholder('Contoh: INV/001/XII/2024/DP')
+                            ->placeholder('Contoh: INV / 001 / XII / 2024 / DP')
                             ->maxLength(255)
                             ->columnSpanFull(),
 
@@ -111,14 +111,60 @@ class InvoiceResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Company Information')
+                Forms\Components\Section::make('Invoice Details')
                     ->schema([
-                        Forms\Components\Textarea::make('company_name')
-                            ->label('Company Details')
+                        Forms\Components\Textarea::make('client_info')
+                            ->label('Client Info')
                             ->placeholder('Enter company name, address, phone, email, etc.')
                             ->rows(4)
                             ->columnSpanFull(),
-                    ]),
+
+                        Forms\Components\Repeater::make('item_details')
+                            ->label('Invoice Items')
+                            ->schema([
+                              Forms\Components\TextInput::make('qty')
+                            ->label('QTY')
+                            ->numeric()
+                            ->required()
+                            ->minValue(1)
+                            ->maxValue(99999)
+                            ->columnSpan(1),
+        
+                        Forms\Components\TextInput::make('items')
+                            ->label('Items / Description')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(2),
+        
+                        Forms\Components\TextInput::make('price')
+                            ->label('Price')
+                            ->numeric()
+                            ->required()
+                            ->prefix('Rp')
+                            ->minValue(0)
+                            ->columnSpan(1),
+                        ])
+                            ->columns(4)
+                            ->defaultItems(1)
+                            ->reorderable()
+                            ->collapsible()
+                            ->addActionLabel('Add Item')
+                            ->columnSpanFull()
+                            ->live(),
+
+                        Forms\Components\MarkdownEditor::make('additional_info')
+                            ->label('Additional Info')
+                            ->columnSpanFull(),
+
+                        Forms\Components\MarkdownEditor::make('custom_item_details')
+                            ->label('Custom Item Details')
+                            ->columnSpanFull(),
+                           
+                        Forms\Components\TextInput::make('prepared_by')
+                            ->label('Prepared By')
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible(),
 
                 Forms\Components\Section::make('Publishing')
                     ->schema([
@@ -127,7 +173,6 @@ class InvoiceResource extends Resource
                             ->helperText('Leave empty for draft'),
                     ])
                     ->collapsible()
-                    ->collapsed(),
             ]);
     }
 
@@ -150,12 +195,12 @@ class InvoiceResource extends Resource
                     ->limit(30)
                     ->description(fn ($record) => $record->slug),
 
-                Tables\Columns\TextColumn::make('company_name')
-                    ->label('Company')
+                Tables\Columns\TextColumn::make('client_info')
+                    ->label('Client Info')
                     ->searchable()
                     ->limit(40)
                     ->toggleable()
-                    ->placeholder('No company info'),
+                    ->placeholder('No client info'),
 
                 Tables\Columns\TextColumn::make('invoice_date')
                     ->label('Invoice Date')

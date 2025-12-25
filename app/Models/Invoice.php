@@ -10,14 +10,21 @@ class Invoice extends Model
       'title',
       'slug',
       'number_invoice',
-      'company_name',
+      'client_info',
       'invoice_date',
       'invoice_due_date',
+      'item_details',
+      'additional_info',
+      'prepared_by',
+      'brand',
+      'paid',
+      'custom_item_details',
     ];
 
     protected $casts = [
       'published_at' => 'datetime',
       'invoice_date' => 'date',
       'invoice_due_date' => 'date',
+      'item_details' => 'array',
     ];
 }
