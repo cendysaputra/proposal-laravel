@@ -15,11 +15,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Seed roles and permissions first
+        $this->call([
+            RoleSeeder::class,
+            PermissionSeeder::class,
         ]);
+
+        // Create admin user
+        $admin = User::firstOrCreate(
+            ['email' => 'cendy@domain.com'],
+            [
+                'name' => 'Cendy',
+                'password' => bcrypt('password'),
+            ]
+        );
+
+        // Attach administrator role to admin user
+        $adminRole = \App\Models\Role::where('slug', 'administrator')->first();
+        if ($adminRole && !$admin->roles()->where('role_id', $adminRole->id)->exists()) {
+            $admin->roles()->attach($adminRole->id);
+
+            // Attach all permissions to administrator role
+            $allPermissions = \App\Models\Permission::all();
+            foreach ($allPermissions as $permission) {
+                if (!$adminRole->permissions()->where('permission_id', $permission->id)->exists()) {
+                    $adminRole->permissions()->attach($permission->id);
+                }
+            }
+        }
     }
 }

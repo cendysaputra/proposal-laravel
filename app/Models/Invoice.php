@@ -19,6 +19,7 @@ class Invoice extends Model
       'brand',
       'paid',
       'custom_item_details',
+      'published_at',
     ];
 
     protected $casts = [
@@ -26,5 +27,7 @@ class Invoice extends Model
       'invoice_date' => 'date',
       'invoice_due_date' => 'date',
       'item_details' => 'array',
+      'custom_item_details' => 'array',
+      'paid' => 'boolean',
     ];
 }

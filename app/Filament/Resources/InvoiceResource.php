@@ -216,21 +216,14 @@ class InvoiceResource extends Resource
                     ->color(fn ($record) => $record->invoice_due_date && $record->invoice_due_date->isPast() ? 'danger' : 'success')
                     ->toggleable(),
 
-                Tables\Columns\BadgeColumn::make('published_at')
-                    ->label('Status')
-                    ->formatStateUsing(fn ($state) => $state ? 'Published' : 'Draft')
-                    ->colors([
-                        'success' => fn ($state) => $state !== null,
-                        'gray' => fn ($state) => $state === null,
-                    ])
-                    ->sortable(),
-
                 Tables\Columns\TextColumn::make('published_at')
-                    ->label('Published Date')
+                    ->label('Published')
                     ->dateTime('d M Y, H:i')
+                    ->badge()
+                    ->color(fn ($state) => $state ? 'success' : 'gray')
+                    ->formatStateUsing(fn ($state) => $state ? $state->format('d M Y, H:i') : 'Draft')
                     ->sortable()
-                    ->toggleable()
-                    ->placeholder('Not published'),
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')

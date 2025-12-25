@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->string('number_invoice');
+            $table->text('client_info')->nullable();
+            $table->date('invoice_date');
+            $table->date('invoice_due_date');
+            $table->json('item_details')->nullable();
+            $table->text('additional_info')->nullable();
+            $table->text('custom_item_details')->nullable();
+            $table->string('prepared_by')->nullable();
+            $table->string('brand')->nullable();
+            $table->boolean('paid')->default(false);
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }
