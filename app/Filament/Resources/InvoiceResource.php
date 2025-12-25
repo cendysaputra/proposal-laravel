@@ -73,8 +73,17 @@ class InvoiceResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255)
-                            ->disabled()
-                            ->dehydrated()
+                            ->suffixAction(
+                                Forms\Components\Actions\Action::make('regenerate')
+                                    ->icon('heroicon-m-arrow-path')
+                                    ->tooltip('Regenerate slug from title')
+                                    ->action(function (Forms\Set $set, Forms\Get $get) {
+                                        $title = $get('title');
+                                        if ($title) {
+                                            $set('slug', Str::slug($title));
+                                        }
+                                    })
+                            )
                             ->columnSpanFull(),
 
                         Forms\Components\TextInput::make('number_invoice')
@@ -198,6 +207,24 @@ class InvoiceResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
+                        Forms\Components\Section::make('Access Control')
+                            ->schema([
+                                Forms\Components\TextInput::make('lock_username')
+                                    ->label('Username')
+                                    ->default('digital')
+                                    ->placeholder('Default: digital')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('lock_password')
+                                    ->label('Password')
+                                    ->default('invoice135')
+                                    ->placeholder('Default: invoice135')
+                                    ->password()
+                                    ->revealable()
+                                    ->columnSpanFull(),
+                            ])
+                            ->collapsible(),
+
                         Forms\Components\Section::make('Publishing')
                             ->schema([
                                 Forms\Components\Select::make('status')

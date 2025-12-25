@@ -20,6 +20,9 @@ class Invoice extends Model
       'paid',
       'custom_item_details',
       'published_at',
+      'is_locked',
+      'lock_username',
+      'lock_password',
     ];
 
     protected $casts = [
@@ -29,5 +32,6 @@ class Invoice extends Model
       'item_details' => 'array',
       'custom_item_details' => 'array',
       'paid' => 'boolean',
+      'is_locked' => 'boolean',
     ];
 }
