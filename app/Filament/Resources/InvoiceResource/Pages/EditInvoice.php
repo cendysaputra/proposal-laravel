@@ -13,6 +13,12 @@ class EditInvoice extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('view')
+                ->label('View Invoice')
+                ->icon('heroicon-o-eye')
+                ->url(fn ($record) => route('invoices.show', $record->slug))
+                ->openUrlInNewTab()
+                ->color('info'),
             Actions\DeleteAction::make(),
         ];
     }

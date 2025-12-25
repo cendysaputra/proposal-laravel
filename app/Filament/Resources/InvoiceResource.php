@@ -293,7 +293,8 @@ class InvoiceResource extends Resource
                     ->label('Title')
                     ->searchable()
                     ->sortable()
-                    ->limit(30),
+                    ->limit(30)
+                    ->url(fn ($record) => InvoiceResource::getUrl('edit', ['record' => $record])),
                
                 Tables\Columns\TextColumn::make('number_invoice')
                     ->label('Invoice')
@@ -370,7 +371,12 @@ class InvoiceResource extends Resource
                     ->falseLabel('Drafts only'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\Action::make('view')
+                    ->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => route('invoices.show', $record->slug))
+                    ->openUrlInNewTab()
+                    ->color('info'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -379,6 +385,7 @@ class InvoiceResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->recordUrl(null)
             ->defaultSort('created_at', 'desc');
     }
 
@@ -394,7 +401,6 @@ class InvoiceResource extends Resource
         return [
             'index' => Pages\ListInvoices::route('/'),
             'create' => Pages\CreateInvoice::route('/create'),
-            'view' => Pages\ViewInvoice::route('/{record}'),
             'edit' => Pages\EditInvoice::route('/{record}/edit'),
         ];
     }
