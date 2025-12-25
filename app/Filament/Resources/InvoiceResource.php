@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
+use Illuminate\Support\HtmlString;
 
 class InvoiceResource extends Resource
 {
@@ -50,9 +52,82 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                ->required()
-                ->maxLength(255),
+                Forms\Components\Section::make('Invoice Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('Invoice Title')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                if ($operation === 'create') {
+                                    $set('slug', Str::slug($state));
+                                }
+                            })
+                            ->columnSpanFull(),
+
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Slug')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255)
+                            ->disabled()
+                            ->dehydrated()
+                            ->columnSpanFull(),
+
+                        Forms\Components\TextInput::make('number_invoice')
+                            ->label('Invoice Number')
+                            ->required()
+                            ->placeholder('Contoh: INV/001/XII/2024/DP')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
+                        Forms\Components\Placeholder::make('')
+                            ->content(new HtmlString('
+                                <div class="text-sm">
+                                    <p class="font-semibold mb-2">Format: INV / Nomor / Bulan (Romawi) / Tahun / Kode</p>
+                                    <p> Kode:</p>
+                                    <ul class="list-disc list-inside space-y-1 ml-2">
+                                        <li>DP - down payment</li>
+                                        <li>LN - pelunasan</li>
+                                        <li>REN - perpanjangan</li>
+                                        <li>ADD - add-ons / tambahan</li>
+                                    </ul>
+                                </div>
+                            '))
+                            ->columnSpanFull(),
+
+                        Forms\Components\DatePicker::make('invoice_date')
+                            ->label('Invoice Date')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->required(),
+
+                        Forms\Components\DatePicker::make('invoice_due_date')
+                            ->label('Invoice Due Date')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->required(),
+                    ])
+                    ->columns(2),
+
+                Forms\Components\Section::make('Company Information')
+                    ->schema([
+                        Forms\Components\Textarea::make('company_name')
+                            ->label('Company Details')
+                            ->placeholder('Enter company name, address, phone, email, etc.')
+                            ->rows(4)
+                            ->columnSpanFull(),
+                    ]),
+
+                Forms\Components\Section::make('Publishing')
+                    ->schema([
+                        Forms\Components\DateTimePicker::make('published_at')
+                            ->label('Publish Date')
+                            ->helperText('Leave empty for draft'),
+                    ])
+                    ->collapsible()
+                    ->collapsed(),
             ]);
     }
 
@@ -60,26 +135,89 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('number_invoice')
+                    ->label('Invoice #')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->icon('heroicon-o-hashtag')
+                    ->placeholder('Draft'),
+
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Title')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(30)
+                    ->description(fn ($record) => $record->slug),
+
+                Tables\Columns\TextColumn::make('company_name')
+                    ->label('Company')
+                    ->searchable()
+                    ->limit(40)
+                    ->toggleable()
+                    ->placeholder('No company info'),
+
+                Tables\Columns\TextColumn::make('invoice_date')
+                    ->label('Invoice Date')
+                    ->date('d M Y')
+                    ->sortable()
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('invoice_due_date')
+                    ->label('Due Date')
+                    ->date('d M Y')
+                    ->sortable()
+                    ->badge()
+                    ->color(fn ($record) => $record->invoice_due_date && $record->invoice_due_date->isPast() ? 'danger' : 'success')
+                    ->toggleable(),
+
+                Tables\Columns\BadgeColumn::make('published_at')
+                    ->label('Status')
+                    ->formatStateUsing(fn ($state) => $state ? 'Published' : 'Draft')
+                    ->colors([
+                        'success' => fn ($state) => $state !== null,
+                        'gray' => fn ($state) => $state === null,
+                    ])
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('published_at')
+                    ->label('Published Date')
+                    ->dateTime('d M Y, H:i')
+                    ->sortable()
+                    ->toggleable()
+                    ->placeholder('Not published'),
+
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Created At')
+                    ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Updated At')
+                    ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('published_at')
+                    ->label('Published')
+                    ->nullable()
+                    ->placeholder('All invoices')
+                    ->trueLabel('Published only')
+                    ->falseLabel('Drafts only'),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
@@ -94,6 +232,7 @@ class InvoiceResource extends Resource
         return [
             'index' => Pages\ListInvoices::route('/'),
             'create' => Pages\CreateInvoice::route('/create'),
+            'view' => Pages\ViewInvoice::route('/{record}'),
             'edit' => Pages\EditInvoice::route('/{record}/edit'),
         ];
     }

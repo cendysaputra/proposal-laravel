@@ -65,7 +65,7 @@ class MediaResource extends Resource
                             ->label('Display Name')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(2),
+                            ->columnSpan(1),
 
                         Forms\Components\Select::make('type')
                             ->label('File Type')
