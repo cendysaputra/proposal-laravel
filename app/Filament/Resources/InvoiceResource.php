@@ -108,6 +108,20 @@ class InvoiceResource extends Resource
                             ->native(false)
                             ->displayFormat('d/m/Y')
                             ->required(),
+
+                        Forms\Components\Radio::make('brand')
+                            ->label('Brand Logo')
+                            ->options([
+                                'logobrand-1' => 'Logo Brand 1',
+                                'logobrand-2' => 'Logo Brand 2',
+                            ])
+                            ->descriptions([
+                                'logobrand-1' => new HtmlString('<img src="' . asset('images/logobrand-1.png') . '" alt="Logo Brand 1" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
+                                'logobrand-2' => new HtmlString('<img src="' . asset('images/logobrand-2.png') . '" alt="Logo Brand 2" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
+                            ])
+                            ->default('logobrand-1')
+                            ->required()
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 
@@ -163,6 +177,17 @@ class InvoiceResource extends Resource
                         Forms\Components\TextInput::make('prepared_by')
                             ->label('Prepared By')
                             ->columnSpanFull(),
+
+                        Forms\Components\Radio::make('paid')
+                            ->label('Payment Status')
+                            ->options([
+                                0 => 'No',
+                                1 => 'Yes',
+                            ])
+                            ->default(0)
+                            ->inline()
+                            ->required()
+                            ->columnSpanFull(),
                     ])
                     ->collapsible(),
 
@@ -214,6 +239,23 @@ class InvoiceResource extends Resource
                     ->sortable()
                     ->badge()
                     ->color(fn ($record) => $record->invoice_due_date && $record->invoice_due_date->isPast() ? 'danger' : 'success')
+                    ->toggleable(),
+
+                Tables\Columns\IconColumn::make('paid')
+                    ->label('Paid')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->sortable()
+                    ->toggleable(),
+
+                Tables\Columns\ImageColumn::make('brand')
+                    ->label('Brand')
+                    ->getStateUsing(fn ($record) => $record->brand ? asset('images/' . $record->brand . '.png') : null)
+                    ->square()
+                    ->size(40)
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('published_at')
