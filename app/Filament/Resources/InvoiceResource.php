@@ -178,7 +178,8 @@ class InvoiceResource extends Resource
                            
                         Forms\Components\TextInput::make('prepared_by')
                             ->label('Prepared By')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->required(),
 
                         Forms\Components\Radio::make('paid')
                             ->label('Paid')
@@ -235,11 +236,10 @@ class InvoiceResource extends Resource
                                 Forms\Components\Actions::make([
                                     Forms\Components\Actions\Action::make('save')
                                         ->label(fn (string $operation) => $operation === 'create' ? 'Create' : 'Save Changes')
-                                        ->action('save')
+                                        ->submit('save')
                                         ->color('primary')
                                         ->extraAttributes(['class' => 'w-full'])
-                                        ->button()
-                                        ->requiresConfirmation(false),
+                                        ->button(),
 
                                     Forms\Components\Actions\Action::make('cancel')
                                         ->label('Cancel')
