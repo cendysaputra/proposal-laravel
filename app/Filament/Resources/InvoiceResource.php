@@ -181,7 +181,7 @@ class InvoiceResource extends Resource
                             ->columnSpanFull(),
 
                         Forms\Components\Radio::make('paid')
-                            ->label('Payment Status')
+                            ->label('Paid')
                             ->options([
                                 0 => 'No',
                                 1 => 'Yes',
@@ -199,10 +199,57 @@ class InvoiceResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Publishing')
                             ->schema([
+                                Forms\Components\Select::make('status')
+                                    ->label('Status')
+                                    ->options([
+                                        'published' => 'Published',
+                                        'draft' => 'Draft',
+                                    ])
+                                    ->default('published')
+                                    ->required()
+                                    ->native(false)
+                                    ->afterStateHydrated(function (Forms\Components\Select $component, $state, $record) {
+                                        if ($record) {
+                                            $component->state($record->published_at !== null ? 'published' : 'draft');
+                                        }
+                                    })
+                                    ->dehydrated(false)
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
+                                        if ($state === 'published') {
+                                            // Set to now if publishing and no date set
+                                            if (!$get('published_at')) {
+                                                $set('published_at', now());
+                                            }
+                                        } else {
+                                            // Clear date if setting to draft
+                                            $set('published_at', null);
+                                        }
+                                    }),
+
                                 Forms\Components\DateTimePicker::make('published_at')
                                     ->label('Publish Date')
                                     ->native(false)
-                                    ->helperText('Leave empty for draft'),
+                                    ->disabled(fn (Forms\Get $get) => $get('status') === 'draft'),
+
+                                Forms\Components\Actions::make([
+                                    Forms\Components\Actions\Action::make('save')
+                                        ->label(fn (string $operation) => $operation === 'create' ? 'Create' : 'Save Changes')
+                                        ->action('save')
+                                        ->color('primary')
+                                        ->extraAttributes(['class' => 'w-full'])
+                                        ->button()
+                                        ->requiresConfirmation(false),
+
+                                    Forms\Components\Actions\Action::make('cancel')
+                                        ->label('Cancel')
+                                        ->url(fn () => InvoiceResource::getUrl('index'))
+                                        ->color('gray')
+                                        ->extraAttributes(['class' => 'w-full'])
+                                        ->button(),
+                                ])
+                                    ->fullWidth()
+                                    ->columnSpanFull(),
                             ])
                             ->collapsible(),
                     ])
@@ -215,20 +262,18 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('number_invoice')
-                    ->label('Invoice #')
-                    ->searchable()
-                    ->sortable()
-                    ->copyable()
-                    ->icon('heroicon-o-hashtag')
-                    ->placeholder('Draft'),
-
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
                     ->sortable()
-                    ->limit(30)
-                    ->description(fn ($record) => $record->slug),
+                    ->limit(30),
+               
+                Tables\Columns\TextColumn::make('number_invoice')
+                    ->label('Invoice')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->placeholder('Draft'),
 
                 Tables\Columns\TextColumn::make('client_info')
                     ->label('Client Info')
@@ -270,10 +315,10 @@ class InvoiceResource extends Resource
 
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('Published')
-                    ->dateTime('d M Y, H:i')
+                    ->dateTime('d M Y')
                     ->badge()
                     ->color(fn ($state) => $state ? 'success' : 'gray')
-                    ->formatStateUsing(fn ($state) => $state ? $state->format('d M Y, H:i') : 'Draft')
+                    ->formatStateUsing(fn ($state) => $state ? $state->format('d M Y') : 'Draft')
                     ->sortable()
                     ->toggleable(),
 

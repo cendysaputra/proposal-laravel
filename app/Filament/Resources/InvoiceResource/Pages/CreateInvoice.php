@@ -9,4 +9,14 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateInvoice extends CreateRecord
 {
     protected static string $resource = InvoiceResource::class;
+
+    protected function getFormActions(): array
+    {
+        return [];
+    }
+
+    protected function hasInlineCreateAction(): bool
+    {
+        return false;
+    }
 }
