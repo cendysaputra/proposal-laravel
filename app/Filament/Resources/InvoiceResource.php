@@ -307,7 +307,7 @@ class InvoiceResource extends Resource
                     ->label('Client Info')
                     ->searchable()
                     ->limit(40)
-                    ->toggleable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->placeholder('No client info'),
 
                 Tables\Columns\TextColumn::make('invoice_date')
@@ -339,7 +339,7 @@ class InvoiceResource extends Resource
                     ->getStateUsing(fn ($record) => $record->brand ? asset('images/' . $record->brand . '.png') : null)
                     ->square()
                     ->size(40)
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('Published')
@@ -348,7 +348,7 @@ class InvoiceResource extends Resource
                     ->color(fn ($state) => $state ? 'success' : 'gray')
                     ->formatStateUsing(fn ($state) => $state ? $state->format('d M Y') : 'Draft')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
