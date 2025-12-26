@@ -27,4 +27,15 @@ class EditInvoice extends EditRecord
     {
         return [];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // Enforce published_at logic based on form state
+        // If published_at is null in the form data, ensure it stays null
+        if (array_key_exists('published_at', $data) && $data['published_at'] === null) {
+            $data['published_at'] = null;
+        }
+
+        return $data;
+    }
 }

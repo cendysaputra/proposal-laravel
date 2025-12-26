@@ -271,7 +271,8 @@ class InvoiceResource extends Resource
                                 Forms\Components\DateTimePicker::make('published_at')
                                     ->label('Publish Date')
                                     ->native(false)
-                                    ->disabled(fn (Forms\Get $get) => $get('status') === 'draft'),
+                                    ->disabled(fn (Forms\Get $get) => $get('status') === 'draft')
+                                    ->dehydrated(),
 
                                 Forms\Components\Actions::make([
                                     Forms\Components\Actions\Action::make('save')
