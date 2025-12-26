@@ -37,7 +37,7 @@
     <!-- PDF Settings Modal -->
     <div id="pdfModal" class="no-print fixed inset-0 bg-[#00000090] hidden items-center justify-center z-999 p-2 sm:p-4" onclick="closePdfModal(event)">
         <div class="bg-white rounded-lg w-full max-w-6xl h-[95vh] sm:h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
-            <div class="p-3 sm:p-4 lg:p-6 border-b border-gray-200 flex-shrink-0">
+            <div class="p-3 sm:p-4 lg:p-6 border-b border-gray-200 shrink-0">
                 <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">PDF Preview</h2>
 
                 <div class="flex flex-col lg:flex-row gap-3 lg:gap-4 lg:items-end">
@@ -154,12 +154,12 @@
                         <!-- Right Column -->
                         <div class="md:text-right">
                             <div class="mb-4">
-                                <h3 class="text-sm font-semibold text-[#E11D48] mb-2">Tanggal Invoice</h3>
+                                <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#E11D48' }}">Tanggal Invoice</h3>
                                 <p class="text-lg text-gray-900">{{ $invoice->invoice_date->format('d F Y') }}</p>
                             </div>
 
                             <div>
-                                 <h3 class="text-sm font-semibold text-[#E11D48] mb-2">Invoice Number</h3>
+                                 <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#E11D48' }}">Invoice Number</h3>
                                  <p class="text-lg font-mono text-gray-900 mb-4">{{ $invoice->number_invoice }}</p>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                         <div class="mt-16 mb-16">
                             <div class="overflow-x-auto">
                                 <table class="min-w-full">
-                                    <thead class="bg-[#E11D48]">
+                                    <thead style="background-color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#E11D48' }}">
                                         <tr>
                                             <th class="px-4 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Items</th>
                                             <th class="px-4 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Price</th>
@@ -191,7 +191,7 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot class="bg-[#FFC7D3]">
+                                    <tfoot style="background-color: {{ $invoice->brand === 'logobrand-2' ? '#E5E7EB' : '#FFC7D3' }}">
                                         <tr>
                                             <td class="px-4 py-4 text-sm font-bold text-gray-900 text-left">TOTAL</td>
                                             <td class="px-4 py-4 text-sm font-bold text-gray-900 text-left">Rp {{ number_format($total, 0, ',', '.') }}</td>
@@ -255,7 +255,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <!-- Left Column - Address & Contacts -->
                             <div>
-                                <h3 class="text-base font-bold text-[#E11D48] mb-2">Administrasi Digital</h3>
+                                <h3 class="text-base font-bold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#E11D48' }}">Administrasi Digital</h3>
                                 <p class=" text-gray-700 mb-4">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
                                 </p>

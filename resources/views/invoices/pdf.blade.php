@@ -76,7 +76,7 @@
         .label-red {
             font-size: {{ 14 * $s }}px;
             font-weight: 600;
-            color: #E11D48;
+            color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#E11D48' }};
             margin-bottom: {{ 8 * $s }}px;
         }
 
@@ -103,7 +103,7 @@
         }
 
         .items-table thead {
-            background-color: #E11D48;
+            background-color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#E11D48' }};
         }
 
         .items-table thead th {
@@ -124,7 +124,7 @@
         }
 
         .items-table tfoot {
-            background-color: #FFC7D3;
+            background-color: {{ $invoice->brand === 'logobrand-2' ? '#E5E7EB' : '#FFC7D3' }};
         }
 
         .items-table tfoot td {
@@ -220,7 +220,7 @@
         .footer h3 {
             font-size: {{ 15 * $s }}px;
             font-weight: bold;
-            color: #E11D48;
+            color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#E11D48' }};
             margin-bottom: {{ 8 * $s }}px;
         }
 
