@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
@@ -56,6 +57,34 @@ class InvoiceController extends Controller
         return back()->withErrors([
             'credentials' => 'Username atau password salah.',
         ])->withInput();
+    }
+
+    public function downloadPdf($slug, Request $request)
+    {
+        $invoice = Invoice::where('slug', $slug)
+            ->whereNotNull('published_at')
+            ->firstOrFail();
+
+        // Check if invoice is locked
+        if ($invoice->is_locked) {
+            if (!$request->session()->has('invoice_authenticated_' . $invoice->id)) {
+                return redirect()->route('invoices.show', $slug);
+            }
+        }
+
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'))
+            ->setPaper('a4', 'portrait')
+            ->setOption('isHtml5ParserEnabled', true)
+            ->setOption('isRemoteEnabled', true)
+            ->setOption('defaultFont', 'Helvetica');
+
+        // Sanitize filename by removing invalid characters
+        $filename = 'Invoice - ' . preg_replace('/[^A-Za-z0-9\-\s]/', '', $invoice->title) . '.pdf';
+
+        return $pdf->download($filename)
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function calculateTotal($itemDetails)
