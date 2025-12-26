@@ -188,6 +188,12 @@
             margin-bottom: {{ 16 * $s }}px;
         }
 
+        .prepared-by .signature {
+            max-height: {{ 80 * $s }}px;
+            width: auto;
+            margin-bottom: {{ 8 * $s }}px;
+        }
+
         .prepared-by .name,
         .prepared-by .position {
             font-size: {{ 15 * $s }}px;
@@ -325,6 +331,9 @@
         @if($invoice->prepared_by)
             <div class="prepared-by">
                 <div class="label">Prepared by</div>
+                @if(file_exists(public_path('images/signature.png')))
+                    <img src="{{ public_path('images/signature.png') }}" alt="Signature" class="signature">
+                @endif
                 <div class="name">{{ $invoice->prepared_by }}</div>
                 @if($invoice->prepared_position)
                     <div class="position">{{ $invoice->prepared_position }}</div>
