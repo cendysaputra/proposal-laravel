@@ -16,8 +16,10 @@ class Invoice extends Model
       'item_details',
       'additional_info',
       'prepared_by',
+      'prepared_position',
       'brand',
       'paid',
+      'detail_pembayaran',
       'custom_item_details',
       'published_at',
       'is_locked',
@@ -30,7 +32,6 @@ class Invoice extends Model
       'invoice_date' => 'date',
       'invoice_due_date' => 'date',
       'item_details' => 'array',
-      'custom_item_details' => 'array',
       'paid' => 'boolean',
       'is_locked' => 'boolean',
     ];

@@ -184,21 +184,9 @@ class InvoiceResource extends Resource
                         Forms\Components\MarkdownEditor::make('custom_item_details')
                             ->label('Custom Item Details')
                             ->columnSpanFull(),
-                           
-                        Forms\Components\TextInput::make('prepared_by')
-                            ->label('Prepared By')
-                            ->columnSpanFull()
-                            ->required(),
 
-                        Forms\Components\Radio::make('paid')
-                            ->label('Paid')
-                            ->options([
-                                0 => 'No',
-                                1 => 'Yes',
-                            ])
-                            ->default(0)
-                            ->inline()
-                            ->required()
+                        Forms\Components\MarkdownEditor::make('detail_pembayaran')
+                            ->label('Detail Pembayaran')
                             ->columnSpanFull(),
                     ])
                     ->collapsible(),
@@ -207,6 +195,31 @@ class InvoiceResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
+                        Forms\Components\Section::make('Prepared By')
+                            ->schema([
+                                Forms\Components\TextInput::make('prepared_by')
+                                    ->label('Prepared By')
+                                    ->required()
+                                    ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('prepared_position')
+                                    ->label('Position / Jabatan')
+                                    ->placeholder('Contoh: Managing Director, CEO, etc.')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Radio::make('paid')
+                                    ->label('Paid')
+                                    ->options([
+                                        0 => 'No',
+                                        1 => 'Yes',
+                                    ])
+                                    ->default(0)
+                                    ->inline()
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->collapsible(),
+
                         Forms\Components\Section::make('Access Control')
                             ->schema([
                                 Forms\Components\TextInput::make('lock_username')
