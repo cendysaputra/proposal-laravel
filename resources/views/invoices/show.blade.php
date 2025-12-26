@@ -135,7 +135,7 @@
                         <div class="pb-16 border-b border-gray-200">
                             <div class="flex justify-end">
                                 <div class="text-center">
-                                    <p class="text-sm text-right text-gray-600 mb-4">Prepared by</p>
+                                    <p class="text-right text-gray-600 mb-4">Prepared by</p>
                                     @if(file_exists(public_path('images/signature.png')))
                                         <img src="{{ asset('images/signature.png') }}" alt="Signature" class="h-20 mx-auto mb-2 object-contain">
                                     @endif
@@ -150,22 +150,22 @@
 
                     <!-- Footer / Contact Information -->
                     <div class="mt-10">
-                        <div class="grid grid-cols-2 gap-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <!-- Left Column - Address & Contacts -->
                             <div>
-                                <h3 class="text-base font-bold text-gray-900 mb-2">Administrasi Digital</h3>
-                                <p class="text-sm text-gray-700 mb-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                <h3 class="text-base font-bold text-[#E11D48] mb-2">Administrasi Digital</h3>
+                                <p class=" text-gray-700 mb-4">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
                                 </p>
-                                <div class="flex gap-6 text-sm text-gray-700">
+                                <div class="flex flex-wrap gap-4 sm:gap-6 text-gray-700">
                                     <span>0800 0000 0000</span>
                                     <span>0800 0000 0000</span>
                                     <span>admin@domain.com</span>
                                 </div>
                             </div>
                             <!-- Right Column - Copyright -->
-                            <div class="flex items-end justify-end">
-                                <p class="text-sm text-gray-600">
+                            <div class="flex items-end justify-start md:justify-end mt-6 md:mt-0">
+                                <p class="text-gray-600">
                                     Copyright &copy; 2026 Administrasi Digital | All Right Reserved
                                 </p>
                             </div>
