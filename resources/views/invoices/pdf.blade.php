@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <title>{{ $invoice->title }} - Invoice</title>
     <style>
+        @php
+            $s = isset($scale) ? floatval($scale) : 1;
+        @endphp
+
         @page {
-            margin: 40px 20px;
+            margin: {{ 40 * $s }}px {{ 20 * $s }}px;
         }
 
         * {
@@ -16,7 +20,7 @@
 
         body {
             font-family: Helvetica, Arial, sans-serif;
-            background-color: #F5F5F5;
+            background-color: white;
         }
 
         /* Force sans-serif everywhere */
@@ -32,19 +36,20 @@
             max-width: 800px;
             margin: 0 auto;
             background: white;
-            padding: 48px;
+            padding: {{ 48 * $s }}px;
+            min-height: 100vh;
         }
 
         /* Header */
         .logo {
-            max-width: 300px;
+            max-width: {{ 200 * $s }}px;
             height: auto;
-            margin-bottom: 48px;
+            margin-bottom: {{ 16 * $s }}px;
         }
 
         /* Invoice Details */
         .invoice-details {
-            margin-bottom: 32px;
+            margin-bottom: {{ 24 * $s }}px;
         }
 
         .invoice-details table {
@@ -62,23 +67,23 @@
         }
 
         .label-gray {
-            font-size: 13px;
+            font-size: {{ 14 * $s }}px;
             font-weight: 600;
             color: #6B7280;
-            margin-bottom: 8px;
+            margin-bottom: {{ 8 * $s }}px;
         }
 
         .label-red {
-            font-size: 13px;
+            font-size: {{ 14 * $s }}px;
             font-weight: 600;
             color: #E11D48;
-            margin-bottom: 8px;
+            margin-bottom: {{ 8 * $s }}px;
         }
 
         .value {
-            font-size: 15px;
+            font-size: {{ 14 * $s }}px;
             color: #111827;
-            margin-bottom: 16px;
+            margin-bottom: {{ 16 * $s }}px;
             line-height: 1.5;
         }
 
@@ -88,8 +93,8 @@
 
         /* Items Table */
         .items-table-wrapper {
-            margin-top: 64px;
-            margin-bottom: 64px;
+            margin-top: {{ 64 * $s }}px;
+            margin-bottom: {{ 64 * $s }}px;
         }
 
         .items-table {
@@ -102,9 +107,9 @@
         }
 
         .items-table thead th {
-            padding: 14px 16px;
+            padding: {{ 14 * $s }}px {{ 16 * $s }}px;
             text-align: left;
-            font-size: 11px;
+            font-size: {{ 12 * $s }}px;
             font-weight: 600;
             color: white;
             text-transform: uppercase;
@@ -112,8 +117,8 @@
         }
 
         .items-table tbody td {
-            padding: 10px 16px;
-            font-size: 13px;
+            padding: {{ 10 * $s }}px {{ 16 * $s }}px;
+            font-size: {{ 13 * $s }}px;
             color: #111827;
             border-bottom: 1px solid #F3F4F6;
         }
@@ -123,49 +128,49 @@
         }
 
         .items-table tfoot td {
-            padding: 14px 16px;
-            font-size: 13px;
+            padding: {{ 14 * $s }}px {{ 16 * $s }}px;
+            font-size: {{ 13 * $s }}px;
             font-weight: bold;
             color: #111827;
         }
 
         /* Sections */
         .section {
-            margin-top: 64px;
-            margin-bottom: 40px;
+            margin-top: {{ 64 * $s }}px;
+            margin-bottom: {{ 40 * $s }}px;
         }
 
         .section.custom-item {
-            margin-top: 40px;
-            margin-bottom: 64px;
+            margin-top: {{ 40 * $s }}px;
+            margin-bottom: {{ 64 * $s }}px;
         }
 
         .section.payment {
-            margin-top: 64px;
-            margin-bottom: 64px;
+            margin-top: {{ 64 * $s }}px;
+            margin-bottom: {{ 64 * $s }}px;
         }
 
         .section h3 {
-            font-size: 17px;
+            font-size: {{ 17 * $s }}px;
             font-weight: 600;
             color: #111827;
-            margin-bottom: 16px;
+            margin-bottom: {{ 16 * $s }}px;
         }
 
         .section p,
         .section div {
-            font-size: 13px;
+            font-size: {{ 13 * $s }}px;
             color: #374151;
             line-height: 1.6;
         }
 
         .section.payment p {
             color: #4B5563;
-            margin-bottom: 8px;
+            margin-bottom: {{ 8 * $s }}px;
         }
 
         .section.payment .payment-info {
-            font-size: 15px;
+            font-size: {{ 15 * $s }}px;
             font-weight: 500;
             color: #111827;
         }
@@ -173,27 +178,27 @@
         /* Prepared By */
         .prepared-by {
             text-align: right;
-            padding-bottom: 64px;
+            padding-bottom: {{ 64 * $s }}px;
             border-bottom: 1px solid #E5E7EB;
         }
 
         .prepared-by .label {
-            font-size: 13px;
+            font-size: {{ 13 * $s }}px;
             color: #4B5563;
-            margin-bottom: 16px;
+            margin-bottom: {{ 16 * $s }}px;
         }
 
         .prepared-by .name,
         .prepared-by .position {
-            font-size: 15px;
+            font-size: {{ 15 * $s }}px;
             font-weight: 600;
             color: #111827;
-            margin-bottom: 4px;
+            margin-bottom: {{ 4 * $s }}px;
         }
 
         /* Footer */
         .footer {
-            margin-top: 40px;
+            margin-top: {{ 40 * $s }}px;
         }
 
         .footer table {
@@ -207,27 +212,27 @@
         }
 
         .footer h3 {
-            font-size: 15px;
+            font-size: {{ 15 * $s }}px;
             font-weight: bold;
             color: #E11D48;
-            margin-bottom: 8px;
+            margin-bottom: {{ 8 * $s }}px;
         }
 
         .footer p {
-            font-size: 13px;
+            font-size: {{ 13 * $s }}px;
             color: #374151;
-            margin-bottom: 16px;
+            margin-bottom: {{ 16 * $s }}px;
             line-height: 1.5;
         }
 
         .footer .contacts {
-            font-size: 13px;
+            font-size: {{ 13 * $s }}px;
             color: #374151;
         }
 
         .footer .copyright {
             text-align: right;
-            font-size: 13px;
+            font-size: {{ 13 * $s }}px;
             color: #6B7280;
         }
     </style>

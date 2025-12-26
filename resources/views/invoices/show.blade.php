@@ -25,14 +25,106 @@
 </head>
 <body class="bg-[#F5F5F5]">
     <!-- Floating Download Button -->
-    <a href="{{ route('invoices.pdf', $invoice->slug) }}" class="no-print fixed bottom-8 right-8 bg-[#004258] hover:bg-[#00334A] text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 z-50 group">
+    <button onclick="openPdfModal()" class="cursor-pointer no-print fixed bottom-8 right-8 bg-[#E11D48] text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 z-50 group">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
-        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#E11D48] text-white text-sm px-3 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Download PDF
         </span>
-    </a>
+    </button>
+
+    <!-- PDF Settings Modal -->
+    <div id="pdfModal" class="no-print fixed inset-0 bg-[#00000090] hidden items-center justify-center z-999 p-2 sm:p-4" onclick="closePdfModal(event)">
+        <div class="bg-white rounded-lg w-full max-w-6xl h-[95vh] sm:h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+            <div class="p-3 sm:p-4 lg:p-6 border-b border-gray-200 flex-shrink-0">
+                <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">PDF Preview</h2>
+
+                <div class="flex flex-col lg:flex-row gap-3 lg:gap-4 lg:items-end">
+                    <div class="w-full lg:w-auto">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Scale</label>
+                        <div class="flex items-center gap-2 mb-2">
+                            <input
+                                type="number"
+                                id="pdfScale"
+                                value="0.94"
+                                step="0.01"
+                                min="0.1"
+                                max="3.0"
+                                onchange="updatePreview()"
+                                oninput="updatePreview()"
+                                class="w-24 border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#004258] text-center font-mono text-sm"
+                            >
+                            <span class="text-sm text-gray-500 whitespace-nowrap">(0.1 - 3.0)</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1">
+                            <button onclick="setScale(0.7)" class="text-xs px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap">0.7</button>
+                            <button onclick="setScale(0.85)" class="text-xs px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap">0.85</button>
+                            <button onclick="setScale(1.0)" class="text-xs px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap">1.0</button>
+                            <button onclick="setScale(1.25)" class="text-xs px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap">1.25</button>
+                            <button onclick="setScale(1.5)" class="text-xs px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap">1.5</button>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 hidden lg:block"></div>
+
+                    <div class="flex gap-2 sm:gap-3">
+                        <button onclick="closePdfModal()" class="cursor-pointer flex-1 lg:flex-none px-4 sm:px-6 py-2 text-sm sm:text-base border border-gray-300 text-gray-700 hover:bg-black hover:text-white rounded-md transition-colors whitespace-nowrap">
+                            Cancel
+                        </button>
+                        <button onclick="downloadPdf()" class="cursor-pointer flex-1 lg:flex-none px-4 sm:px-6 py-2 text-sm sm:text-base bg-[#E11D48] text-white rounded-md hover:bg-black transition-colors whitespace-nowrap">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-hidden bg-gray-100 p-2 sm:p-3 lg:p-4 min-h-0">
+                <iframe id="pdfPreview" class="w-full h-full bg-white rounded shadow-lg" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPdfModal() {
+            document.getElementById('pdfModal').classList.remove('hidden');
+            document.getElementById('pdfModal').classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+            updatePreview();
+        }
+
+        function closePdfModal(event) {
+            if (!event || event.target === document.getElementById('pdfModal')) {
+                document.getElementById('pdfModal').classList.add('hidden');
+                document.getElementById('pdfModal').classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        function setScale(value) {
+            document.getElementById('pdfScale').value = value;
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const scale = parseFloat(document.getElementById('pdfScale').value);
+            if (scale < 0.1 || scale > 3.0) return;
+
+            const iframe = document.getElementById('pdfPreview');
+            iframe.src = '{{ route("invoices.preview", $invoice->slug) }}?scale=' + scale;
+        }
+
+        function downloadPdf() {
+            const scale = parseFloat(document.getElementById('pdfScale').value);
+            if (scale < 0.1 || scale > 3.0) {
+                alert('Scale must be between 0.1 and 3.0');
+                return;
+            }
+
+            window.location.href = '{{ route("invoices.pdf", $invoice->slug) }}?scale=' + scale;
+            closePdfModal();
+        }
+    </script>
 
     <div class="min-h-screen py-12">
         <!-- Invoice Container -->

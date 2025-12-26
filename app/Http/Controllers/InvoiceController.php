@@ -59,6 +59,31 @@ class InvoiceController extends Controller
         ])->withInput();
     }
 
+    public function previewPdf($slug, Request $request)
+    {
+        $invoice = Invoice::where('slug', $slug)
+            ->whereNotNull('published_at')
+            ->firstOrFail();
+
+        // Check if invoice is locked
+        if ($invoice->is_locked) {
+            if (!$request->session()->has('invoice_authenticated_' . $invoice->id)) {
+                return redirect()->route('invoices.show', $slug);
+            }
+        }
+
+        // Get scale from request (default 100%)
+        $scale = $request->get('scale', 100);
+
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice', 'scale'))
+            ->setPaper('a4', 'portrait')
+            ->setOption('isHtml5ParserEnabled', true)
+            ->setOption('isRemoteEnabled', true)
+            ->setOption('defaultFont', 'Helvetica');
+
+        return $pdf->stream();
+    }
+
     public function downloadPdf($slug, Request $request)
     {
         $invoice = Invoice::where('slug', $slug)
@@ -72,7 +97,10 @@ class InvoiceController extends Controller
             }
         }
 
-        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'))
+        // Get scale from request (default 100%)
+        $scale = $request->get('scale', 100);
+
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice', 'scale'))
             ->setPaper('a4', 'portrait')
             ->setOption('isHtml5ParserEnabled', true)
             ->setOption('isRemoteEnabled', true)
