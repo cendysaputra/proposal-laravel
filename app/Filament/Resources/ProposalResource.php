@@ -472,6 +472,24 @@ class ProposalResource extends Resource
                 // Sidebar (Right Side)
                 Forms\Components\Group::make()
                     ->schema([
+                        Forms\Components\Section::make('Access Control')
+                            ->schema([
+                                Forms\Components\TextInput::make('lock_username')
+                                    ->label('Username')
+                                    ->default('digital')
+                                    ->placeholder('Default: digital')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('lock_password')
+                                    ->label('Password')
+                                    ->default('proposal135')
+                                    ->placeholder('Default: proposal135')
+                                    ->password()
+                                    ->revealable()
+                                    ->columnSpanFull(),
+                            ])
+                            ->collapsible(),
+
                         Forms\Components\Section::make('Actions')
                             ->schema([
                                 Forms\Components\Placeholder::make('sidebar_placeholder')
