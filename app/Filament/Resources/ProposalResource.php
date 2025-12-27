@@ -492,6 +492,33 @@ class ProposalResource extends Resource
 
                         Forms\Components\Section::make('Publishing')
                             ->schema([
+                                Forms\Components\Actions::make([
+                                    Forms\Components\Actions\Action::make('view')
+                                        ->label('View')
+                                        ->icon('heroicon-o-eye')
+                                        ->url(fn ($record) => $record ? route('proposals.show', $record->slug) : null)
+                                        ->openUrlInNewTab()
+                                        ->color('info')
+                                        ->visible(fn ($record) => $record !== null)
+                                        ->extraAttributes(['class' => 'w-full'])
+                                        ->button(),
+
+                                    Forms\Components\Actions\Action::make('delete')
+                                        ->label('Delete')
+                                        ->icon('heroicon-o-trash')
+                                        ->color('danger')
+                                        ->requiresConfirmation()
+                                        ->action(function ($record) {
+                                            $record->delete();
+                                            return redirect()->to(ProposalResource::getUrl('index'));
+                                        })
+                                        ->visible(fn ($record) => $record !== null)
+                                        ->extraAttributes(['class' => 'w-full'])
+                                        ->button(),
+                                ])
+                                    ->fullWidth()
+                                    ->columnSpanFull(),
+
                                 Forms\Components\Select::make('status')
                                     ->label('Status')
                                     ->options([
