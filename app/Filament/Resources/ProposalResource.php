@@ -128,6 +128,7 @@ class ProposalResource extends Resource
                                 Forms\Components\TextInput::make('project_manager')
                                     ->label('Project Manager')
                                     ->maxLength(255)
+                                    ->required()
                                     ->columnSpanFull(),
 
                                 // Separator
@@ -168,6 +169,7 @@ class ProposalResource extends Resource
                                     ->default([])
                                     ->bulkToggleable()
                                     ->gridDirection('row')
+                                    ->required()
                                     ->columnSpanFull(),
 
                                 Forms\Components\Repeater::make('short_brief_custom')
@@ -216,6 +218,7 @@ class ProposalResource extends Resource
                                     ->default([])
                                     ->bulkToggleable()
                                     ->gridDirection('row')
+                                    ->required()
                                     ->columnSpanFull(),
 
                                 Forms\Components\Repeater::make('core_services_custom')
@@ -260,6 +263,7 @@ class ProposalResource extends Resource
                                     ->default([])
                                     ->bulkToggleable()
                                     ->gridDirection('row')
+                                    ->required()
                                     ->columnSpanFull(),
 
                                 Forms\Components\Repeater::make('standard_features_custom')
@@ -462,6 +466,29 @@ class ProposalResource extends Resource
                                     ->maxFiles(10)
                                     ->directory('portfolios/gallery')
                                     ->imageEditor()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2)
+                            ->collapsible(),
+
+                        Forms\Components\Section::make('Client Benefit')
+                            ->schema([
+                                Forms\Components\RichEditor::make('add_ons_features')
+                                    ->label('Add-ons Features')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'strike',
+                                        'link',
+                                        'heading',
+                                        'bulletList',
+                                        'orderedList',
+                                        'blockquote',
+                                        'codeBlock',
+                                        'undo',
+                                        'redo',
+                                    ])
                                     ->columnSpanFull(),
                             ])
                             ->columns(2)
