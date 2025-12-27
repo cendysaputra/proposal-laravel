@@ -490,11 +490,41 @@ class ProposalResource extends Resource
                             ])
                             ->collapsible(),
 
-                        Forms\Components\Section::make('Actions')
+                        Forms\Components\Section::make('Publishing')
                             ->schema([
-                                Forms\Components\Placeholder::make('sidebar_placeholder')
-                                    ->label('')
-                                    ->content('Sidebar content will be customized here'),
+                                Forms\Components\Select::make('status')
+                                    ->label('Status')
+                                    ->options([
+                                        'published' => 'Published',
+                                        'draft' => 'Draft',
+                                    ])
+                                    ->default('published')
+                                    ->required()
+                                    ->native(false)
+                                    ->afterStateHydrated(function (Forms\Components\Select $component, $state, $record) {
+                                        if ($record) {
+                                            $component->state($record->published_at !== null ? 'published' : 'draft');
+                                        }
+                                    })
+                                    ->dehydrated(false)
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
+                                        if ($state === 'published') {
+                                            // Set to now if publishing and no date set
+                                            if (!$get('published_at')) {
+                                                $set('published_at', now());
+                                            }
+                                        } else {
+                                            // Clear date if setting to draft
+                                            $set('published_at', null);
+                                        }
+                                    }),
+
+                                Forms\Components\DateTimePicker::make('published_at')
+                                    ->label('Publish Date')
+                                    ->native(false)
+                                    ->disabled(fn (Forms\Get $get) => $get('status') === 'draft')
+                                    ->dehydrated(),
 
                                 Forms\Components\Actions::make([
                                     Forms\Components\Actions\Action::make('save')
