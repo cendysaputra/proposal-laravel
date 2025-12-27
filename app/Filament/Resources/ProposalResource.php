@@ -124,6 +124,39 @@ class ProposalResource extends Resource
 
                         Forms\Components\Section::make('Project Brief')
                             ->schema([
+                                // Project Manager
+                                Forms\Components\TextInput::make('project_manager')
+                                    ->label('Project Manager')
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_2')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
+                                // Brand Project
+                                Forms\Components\Radio::make('brand_project')
+                                    ->label('Brand Logo')
+                                    ->options([
+                                        'logobrand-1' => 'Logo Brand 1',
+                                        'logobrand-2' => 'Logo Brand 2',
+                                    ])
+                                    ->descriptions([
+                                        'logobrand-1' => new HtmlString('<img src="' . asset('images/logobrand-1.png') . '" alt="Logo Brand 1" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
+                                        'logobrand-2' => new HtmlString('<img src="' . asset('images/logobrand-2.png') . '" alt="Logo Brand 2" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
+                                    ])
+                                    ->default('logobrand-1')
+                                    ->required()
+                                    ->columnSpanFull(),
+                                 
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_2')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
                                 // Short Brief Section
                                 Forms\Components\CheckboxList::make('short_brief')
                                     ->label('Short Brief')
@@ -393,6 +426,42 @@ class ProposalResource extends Resource
                                     ->addActionLabel('Add new choice')
                                     ->addActionAlignment('start')
                                     ->defaultItems(0)
+                                    ->columnSpanFull(),
+
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_7')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
+                                // Text Portfolio
+                                Forms\Components\RichEditor::make('text_portfolio')
+                                    ->label('Portfolio')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'strike',
+                                        'link',
+                                        'heading',
+                                        'bulletList',
+                                        'orderedList',
+                                        'blockquote',
+                                        'codeBlock',
+                                        'undo',
+                                        'redo',
+                                    ])
+                                    ->columnSpanFull(),
+
+                                // Gallery Portfolio
+                                Forms\Components\FileUpload::make('gallery_portfolio')
+                                    ->label('Gallery Portfolio')
+                                    ->image()
+                                    ->multiple()
+                                    ->reorderable()
+                                    ->maxFiles(10)
+                                    ->directory('portfolios/gallery')
+                                    ->imageEditor()
                                     ->columnSpanFull(),
                             ])
                             ->columns(2)
