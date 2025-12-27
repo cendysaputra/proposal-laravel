@@ -467,6 +467,25 @@ class ProposalResource extends Resource
                                     ->directory('portfolios/gallery')
                                     ->imageEditor()
                                     ->columnSpanFull(),
+
+                                // Additional Notes
+                                Forms\Components\RichEditor::make('additional_notes')
+                                    ->label('Additional Notes')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'strike',
+                                        'link',
+                                        'heading',
+                                        'bulletList',
+                                        'orderedList',
+                                        'blockquote',
+                                        'codeBlock',
+                                        'undo',
+                                        'redo',
+                                    ])
+                                    ->columnSpanFull(),
                             ])
                             ->columns(2)
                             ->collapsible(),
