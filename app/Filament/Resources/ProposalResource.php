@@ -137,17 +137,31 @@ class ProposalResource extends Resource
                                     ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
                                     ->columnSpanFull(),
 
-                                // Brand Project
-                                Forms\Components\Radio::make('brand_project')
+                                // Brand Logo Preview
+                                Forms\Components\Placeholder::make('brand_logo_preview')
                                     ->label('Brand Logo')
+                                    ->content(new HtmlString('
+                                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 8px;">
+                                            <div style="text-align: center;">
+                                                <p style="font-weight: 600; margin-bottom: 8px;">Logo Brand 1</p>
+                                                <img src="' . asset('images/logobrand-1.png') . '" alt="Logo Brand 1" style="max-width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <p style="font-weight: 600; margin-bottom: 8px;">Logo Brand 2</p>
+                                                <img src="' . asset('images/logobrand-2.png') . '" alt="Logo Brand 2" style="max-width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">
+                                            </div>
+                                        </div>
+                                    '))
+                                    ->columnSpanFull(),
+
+                                // Brand Project Selection
+                                Forms\Components\Radio::make('brand_project')
+                                    ->label('Pilih Brand')
                                     ->options([
                                         'logobrand-1' => 'Logo Brand 1',
                                         'logobrand-2' => 'Logo Brand 2',
                                     ])
-                                    ->descriptions([
-                                        'logobrand-1' => new HtmlString('<img src="' . asset('images/logobrand-1.png') . '" alt="Logo Brand 1" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
-                                        'logobrand-2' => new HtmlString('<img src="' . asset('images/logobrand-2.png') . '" alt="Logo Brand 2" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
-                                    ])
+                                    ->inline()
                                     ->default('logobrand-1')
                                     ->required()
                                     ->columnSpanFull(),
