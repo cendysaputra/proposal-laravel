@@ -226,6 +226,9 @@ class InvoiceResource extends Resource
                                     ->label('Username')
                                     ->default('digital')
                                     ->placeholder('Default: digital')
+                                    ->required(fn (Forms\Get $get) => $get('is_locked'))
+                                    ->disabled(fn (Forms\Get $get) => !$get('is_locked'))
+                                    ->dehydrated(fn (Forms\Get $get) => $get('is_locked'))
                                     ->columnSpanFull(),
 
                                 Forms\Components\TextInput::make('lock_password')
@@ -234,6 +237,15 @@ class InvoiceResource extends Resource
                                     ->placeholder('Default: invoice135')
                                     ->password()
                                     ->revealable()
+                                    ->required(fn (Forms\Get $get) => $get('is_locked'))
+                                    ->disabled(fn (Forms\Get $get) => !$get('is_locked'))
+                                    ->dehydrated(fn (Forms\Get $get) => $get('is_locked'))
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Toggle::make('is_locked')
+                                    ->label('Proteksi Password')
+                                    ->default(true)
+                                    ->live()
                                     ->columnSpanFull(),
                             ])
                             ->collapsible(),
