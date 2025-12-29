@@ -124,19 +124,6 @@ class ProposalResource extends Resource
 
                         Forms\Components\Section::make('Project Brief')
                             ->schema([
-                                // Project Manager
-                                Forms\Components\TextInput::make('project_manager')
-                                    ->label('Project Manager')
-                                    ->maxLength(255)
-                                    ->required()
-                                    ->columnSpanFull(),
-
-                                // Separator
-                                Forms\Components\Placeholder::make('separator_2')
-                                    ->label('')
-                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
-                                    ->columnSpanFull(),
-
                                 // Brand Project
                                 Forms\Components\Radio::make('brand_project')
                                     ->label('Brand Logo')
@@ -518,6 +505,16 @@ class ProposalResource extends Resource
                 // Sidebar (Right Side)
                 Forms\Components\Group::make()
                     ->schema([
+                        Forms\Components\Section::make('Other Information')
+                            ->schema([
+                                Forms\Components\TextInput::make('project_manager')
+                                    ->label('Project Manager')
+                                    ->maxLength(255)
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->collapsible(),
+
                         Forms\Components\Section::make('Access Control')
                             ->schema([
                                 Forms\Components\TextInput::make('lock_username')
