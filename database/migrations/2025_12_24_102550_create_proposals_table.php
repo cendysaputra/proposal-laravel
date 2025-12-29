@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content')->nullable();
-            $table->string('status')->default('draft');
-            $table->text('Proposal Number');
+            $table->string('proposal_number');
             $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
         });

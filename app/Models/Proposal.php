@@ -46,6 +46,9 @@ class Proposal extends Model
         'using_wordpress',
         'use_tnb',
         'submitted_at',
+        'is_locked',
+        'lock_username',
+        'lock_password',
     ];
 
     protected $casts = [
@@ -53,6 +56,7 @@ class Proposal extends Model
         'aktifkan_garansi' => 'boolean',
         'offline_meeting' => 'boolean',
         'using_wordpress' => 'boolean',
+        'is_locked' => 'boolean',
         'short_brief' => 'array',
         'short_brief_custom' => 'array',
         'core_services' => 'array',

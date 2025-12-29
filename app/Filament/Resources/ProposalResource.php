@@ -90,7 +90,7 @@ class ProposalResource extends Resource
                                   Forms\Components\TextInput::make('proposal_number')
                                     ->label('Invoice Number')
                                     ->required()
-                                    ->placeholder('Contoh: QUO / 001 / XII / 2026 / NEW')
+                                    ->placeholder('Contoh: QUO / 001 / XII / 26 / NEW')
                                     ->maxLength(255)
                                     ->columnSpanFull(),
 
@@ -520,10 +520,20 @@ class ProposalResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Access Control')
                             ->schema([
+                                Forms\Components\Toggle::make('is_locked')
+                                    ->label('Aktifkan Proteksi Password')
+                                    ->helperText('Aktifkan untuk memerlukan username & password saat mengakses proposal')
+                                    ->default(false)
+                                    ->live()
+                                    ->columnSpanFull(),
+
                                 Forms\Components\TextInput::make('lock_username')
                                     ->label('Username')
                                     ->default('digital')
                                     ->placeholder('Default: digital')
+                                    ->required(fn (Forms\Get $get) => $get('is_locked'))
+                                    ->disabled(fn (Forms\Get $get) => !$get('is_locked'))
+                                    ->dehydrated(fn (Forms\Get $get) => $get('is_locked'))
                                     ->columnSpanFull(),
 
                                 Forms\Components\TextInput::make('lock_password')
@@ -532,6 +542,9 @@ class ProposalResource extends Resource
                                     ->placeholder('Default: proposal135')
                                     ->password()
                                     ->revealable()
+                                    ->required(fn (Forms\Get $get) => $get('is_locked'))
+                                    ->disabled(fn (Forms\Get $get) => !$get('is_locked'))
+                                    ->dehydrated(fn (Forms\Get $get) => $get('is_locked'))
                                     ->columnSpanFull(),
                             ])
                             ->collapsible(),

@@ -17,3 +17,8 @@ Route::get('/invoices/{slug}', [\App\Http\Controllers\InvoiceController::class, 
 Route::get('/invoices/{slug}/pdf', [\App\Http\Controllers\InvoiceController::class, 'downloadPdf'])->name('invoices.pdf');
 Route::get('/invoices/{slug}/preview', [\App\Http\Controllers\InvoiceController::class, 'previewPdf'])->name('invoices.preview');
 Route::post('/invoices/{slug}/unlock', [\App\Http\Controllers\InvoiceController::class, 'unlock'])->name('invoices.unlock');
+
+// Proposal Routes
+Route::get('/proposals', [\App\Http\Controllers\ProposalController::class, 'index'])->name('proposals.index');
+Route::get('/proposals/{slug}', [\App\Http\Controllers\ProposalController::class, 'show'])->name('proposals.show');
+Route::post('/proposals/{slug}/unlock', [\App\Http\Controllers\ProposalController::class, 'unlock'])->name('proposals.unlock');
