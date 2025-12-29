@@ -13,6 +13,12 @@ class EditProposal extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('view')
+                ->label('View Proposal')
+                ->icon('heroicon-o-eye')
+                ->url(fn ($record) => route('proposals.show', $record->slug))
+                ->openUrlInNewTab()
+                ->color('info'),
             Actions\DeleteAction::make(),
         ];
     }

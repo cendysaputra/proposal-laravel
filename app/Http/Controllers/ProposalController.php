@@ -9,7 +9,7 @@ class ProposalController extends Controller
 {
     public function index()
     {
-        $proposals = Proposal::whereNotNull('submitted_at')
+        $proposals = Proposal::whereNotNull('published_at')
             ->orderBy('created_at', 'desc')
             ->paginate(12);
 
@@ -19,7 +19,7 @@ class ProposalController extends Controller
     public function show($slug, Request $request)
     {
         $proposal = Proposal::where('slug', $slug)
-            ->whereNotNull('submitted_at')
+            ->whereNotNull('published_at')
             ->firstOrFail();
 
         // Check if proposal is locked
@@ -36,7 +36,7 @@ class ProposalController extends Controller
     public function unlock($slug, Request $request)
     {
         $proposal = Proposal::where('slug', $slug)
-            ->whereNotNull('submitted_at')
+            ->whereNotNull('published_at')
             ->firstOrFail();
 
         $request->validate([
