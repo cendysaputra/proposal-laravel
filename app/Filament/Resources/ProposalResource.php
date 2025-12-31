@@ -122,6 +122,31 @@ class ProposalResource extends Resource
                             ->columns(2)
                             ->collapsible(),
 
+                        Forms\Components\Section::make('Package Details')
+                            ->schema([
+                                Forms\Components\TextInput::make('package_name_one')
+                                    ->label('Package Name')
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('option_price_one')
+                                    ->label('Option Price')
+                                    ->maxLength(255)
+                                    ->prefix('Rp'),
+
+                                Forms\Components\TextInput::make('option_renewal_price_one')
+                                    ->label('Optional Renewal Price')
+                                    ->maxLength(255)
+                                    ->prefix('Rp'),
+
+                                Forms\Components\TextInput::make('option_price_coret_one')
+                                    ->label('Option Price Coret')
+                                    ->maxLength(255)
+                                    ->prefix('Rp'),
+                            ])
+                            ->columns(3)
+                            ->collapsible(),
+
                         Forms\Components\Section::make('Project Brief')
                             ->schema([
                                 // Brand Project
