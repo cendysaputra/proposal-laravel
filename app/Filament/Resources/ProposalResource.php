@@ -512,6 +512,26 @@ class ProposalResource extends Resource
                                     ->maxLength(255)
                                     ->required()
                                     ->columnSpanFull(),
+
+                                Forms\Components\FileUpload::make('additional_image_qr')
+                                    ->label('Additional Image (for QR)')
+                                    ->helperText('Mendukung QR Code Figma/gambar. Info tambahan bisa diletakkan di caption.')
+                                    ->image()
+                                    ->directory('proposals/qr-images')
+                                    ->imageEditor()
+                                    ->maxSize(5120)
+                                    ->columnSpanFull(),
+
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_garansi')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Toggle::make('aktifkan_garansi')
+                                    ->label('Aktifkan Garansi')
+                                    ->default(false)
+                                    ->columnSpanFull(),
                             ])
                             ->collapsible(),
 
