@@ -124,45 +124,45 @@ class ProposalResource extends Resource
 
                         Forms\Components\Section::make('Package Details')
                             ->schema([
-                                Forms\Components\TextInput::make('package_name_one')
-                                    ->label('Package 1: Name')
-                                    ->maxLength(255)
+                                Forms\Components\Repeater::make('packages')
+                                    ->label('Packages')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->label('Package Name')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TextInput::make('price')
+                                            ->label('Price')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->prefix('Rp'),
+
+                                        Forms\Components\TextInput::make('renewal_price')
+                                            ->label('Renewal Price')
+                                            ->maxLength(255)
+                                            ->prefix('Rp'),
+
+                                        Forms\Components\TextInput::make('price_coret')
+                                            ->label('Price Coret')
+                                            ->maxLength(255)
+                                            ->prefix('Rp'),
+                                    ])
+                                    ->columns(3)
+                                    ->defaultItems(1)
+                                    ->reorderable()
+                                    ->collapsible()
+                                    ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                                    ->addActionLabel('Add Package')
+                                    ->addActionAlignment('start')
                                     ->columnSpanFull(),
 
-                                Forms\Components\TextInput::make('option_price_one')
-                                    ->label('Option 1: Price')
-                                    ->maxLength(255)
-                                    ->prefix('Rp'),
-
-                                Forms\Components\TextInput::make('option_renewal_price_one')
-                                    ->label('Optional 1: Renewal Price')
-                                    ->maxLength(255)
-                                    ->prefix('Rp'),
-
-                                Forms\Components\TextInput::make('option_price_coret_one')
-                                    ->label('Option 1: Price Coret')
-                                    ->maxLength(255)
-                                    ->prefix('Rp'),
-
-                                Forms\Components\TextInput::make('package_name_two')
-                                    ->label('Package 2: Name')
-                                    ->maxLength(255)
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_berlaku_tahun')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
                                     ->columnSpanFull(),
-
-                                Forms\Components\TextInput::make('option_price_two')
-                                    ->label('Option 2: Price')
-                                    ->maxLength(255)
-                                    ->prefix('Rp'),
-
-                                Forms\Components\TextInput::make('option_renewal_price_two')
-                                    ->label('Optional 2: Renewal Price')
-                                    ->maxLength(255)
-                                    ->prefix('Rp'),
-
-                                Forms\Components\TextInput::make('option_price_coret_two')
-                                    ->label('Option 2: Price Coret')
-                                    ->maxLength(255)
-                                    ->prefix('Rp'),
 
                                 Forms\Components\TextInput::make('berlaku_x_tahun')
                                     ->label('Berlaku untuk X tahun')
@@ -170,7 +170,7 @@ class ProposalResource extends Resource
                                     ->maxLength(255)
                                     ->columnSpanFull(),
                             ])
-                            ->columns(3)
+                            ->columns(1)
                             ->collapsible(),
 
                         Forms\Components\Section::make('Project Brief')
