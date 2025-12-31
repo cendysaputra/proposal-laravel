@@ -125,24 +125,50 @@ class ProposalResource extends Resource
                         Forms\Components\Section::make('Package Details')
                             ->schema([
                                 Forms\Components\TextInput::make('package_name_one')
-                                    ->label('Package Name')
+                                    ->label('Package 1: Name')
                                     ->maxLength(255)
                                     ->columnSpanFull(),
 
                                 Forms\Components\TextInput::make('option_price_one')
-                                    ->label('Option Price')
+                                    ->label('Option 1: Price')
                                     ->maxLength(255)
                                     ->prefix('Rp'),
 
                                 Forms\Components\TextInput::make('option_renewal_price_one')
-                                    ->label('Optional Renewal Price')
+                                    ->label('Optional 1: Renewal Price')
                                     ->maxLength(255)
                                     ->prefix('Rp'),
 
                                 Forms\Components\TextInput::make('option_price_coret_one')
-                                    ->label('Option Price Coret')
+                                    ->label('Option 1: Price Coret')
                                     ->maxLength(255)
                                     ->prefix('Rp'),
+
+                                Forms\Components\TextInput::make('package_name_two')
+                                    ->label('Package 2: Name')
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('option_price_two')
+                                    ->label('Option 2: Price')
+                                    ->maxLength(255)
+                                    ->prefix('Rp'),
+
+                                Forms\Components\TextInput::make('option_renewal_price_two')
+                                    ->label('Optional 2: Renewal Price')
+                                    ->maxLength(255)
+                                    ->prefix('Rp'),
+
+                                Forms\Components\TextInput::make('option_price_coret_two')
+                                    ->label('Option 2: Price Coret')
+                                    ->maxLength(255)
+                                    ->prefix('Rp'),
+
+                                Forms\Components\TextInput::make('berlaku_x_tahun')
+                                    ->label('Berlaku untuk X tahun')
+                                    ->helperText('Contoh: Biaya tahun pertama dan kedua')
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
                             ])
                             ->columns(3)
                             ->collapsible(),
@@ -520,6 +546,60 @@ class ProposalResource extends Resource
                                         'undo',
                                         'redo',
                                     ])
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2)
+                            ->collapsible(),
+
+                        Forms\Components\Section::make('Other Projects')
+                            ->schema([
+                                Forms\Components\CheckboxList::make('ecommerce_features')
+                                    ->label('Ecommerce Features')
+                                    ->options([
+                                        'Platform: WooCommerce (Plugin e-commerce WordPress)' => 'Platform: WooCommerce (Plugin e-commerce WordPress)',
+                                        'Katalog Produk: Halaman katalog produk yang terstruktur dengan baik' => 'Katalog Produk: Halaman katalog produk yang terstruktur dengan baik',
+                                        'Kategori, sub-kategori, merek (brand), dan tag untuk pengelompokan produk' => 'Kategori, sub-kategori, merek (brand), dan tag untuk pengelompokan produk',
+                                        'Halaman Produk Individu (Single Product): Deskripsi produk yang detail' => 'Halaman Produk Individu (Single Product): Deskripsi produk yang detail',
+                                        'Galeri gambar produk' => 'Galeri gambar produk',
+                                        'Informasi harga (termasuk harga diskon/sale, jika ada)' => 'Informasi harga (termasuk harga diskon/sale, jika ada)',
+                                        'Atribut produk' => 'Atribut produk',
+                                        'Tombol "Order via WhatsApp" (call-to-action langsung)' => 'Tombol "Order via WhatsApp" (call-to-action langsung)',
+                                        'Fitur Pencarian (Search Bar): Memudahkan pengunjung menemukan produk yang dicari' => 'Fitur Pencarian (Search Bar): Memudahkan pengunjung menemukan produk yang dicari',
+                                        'Fitur Wishlist: Pengguna dapat menyimpan produk yang diminati untuk dibeli' => 'Fitur Wishlist: Pengguna dapat menyimpan produk yang diminati untuk dibeli',
+                                        'Single Currency: satu jenis mata uang – contoh: IDR (Rupiah)' => 'Single Currency: satu jenis mata uang – contoh: IDR (Rupiah)',
+                                        'Harga diskon/sale reguler' => 'Harga diskon/sale reguler',
+                                        'Diskon menggunakan kode kupon, dapat berupa potongan nominal atau persen' => 'Diskon menggunakan kode kupon, dapat berupa potongan nominal atau persen',
+                                        'Metode pembayaran via Transfer Bank (manual)' => 'Metode pembayaran via Transfer Bank (manual)',
+                                        'Verifikasi pembayaran secara manual' => 'Verifikasi pembayaran secara manual',
+                                        'Integrasi Pembayaran: Payment Gateway Midtrans (integrasi menggunakan plugin resmi dari Midtrans)' => 'Integrasi Pembayaran: Payment Gateway Midtrans (integrasi menggunakan plugin resmi dari Midtrans)',
+                                        'Perhitungan Ongkos Kirim Ekspedisi Eksternal: Integrasi dengan RajaOngkir API Pro (menggunakan plugin Woongkir)' => 'Perhitungan Ongkos Kirim Ekspedisi Eksternal: Integrasi dengan RajaOngkir API Pro (menggunakan plugin Woongkir)',
+                                        'Perhitungan Ongkos Kirim Ekspedisi Internal: Kalkulasi berdasarkan daerah pengiriman, berat, dan volume' => 'Perhitungan Ongkos Kirim Ekspedisi Internal: Kalkulasi berdasarkan daerah pengiriman, berat, dan volume',
+                                        'Email notifikasi otomatis ke penjual dan pembeli yang berisi status pesanan, pembayaran, dll' => 'Email notifikasi otomatis ke penjual dan pembeli yang berisi status pesanan, pembayaran, dll',
+                                        'Fitur cek status order: Pengguna dapat melacak status order dengan memasukkan nomor order' => 'Fitur cek status order: Pengguna dapat melacak status order dengan memasukkan nomor order',
+                                        'Blog/Artikel/Berita: Untuk publikasi konten yang relevan dan meningkatkan SEO' => 'Blog/Artikel/Berita: Untuk publikasi konten yang relevan dan meningkatkan SEO',
+                                        'Galeri: Menampilkan foto dan informasi perusahaan' => 'Galeri: Menampilkan foto dan informasi perusahaan',
+                                        'Banner: Informasi visual yang menarik perhatian (gambar atau video)' => 'Banner: Informasi visual yang menarik perhatian (gambar atau video)',
+                                        'Form kontak ("Contact Form" / "Get a Quote")' => 'Form kontak ("Contact Form" / "Get a Quote")',
+                                        'Integrasi Google Maps (menampilkan lokasi bisnis)' => 'Integrasi Google Maps (menampilkan lokasi bisnis)',
+                                        'Koneksi Media Sosial (tautan ke halaman media sosial)' => 'Koneksi Media Sosial (tautan ke halaman media sosial)',
+                                        'On-page SEO: pengaturan / optimasi custom meta title / description untuk setiap halaman' => 'On-page SEO: pengaturan / optimasi custom meta title / description untuk setiap halaman',
+                                    ])
+                                    ->default([])
+                                    ->bulkToggleable()
+                                    ->gridDirection('row')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Repeater::make('ecommerce_features_custom')
+                                    ->label('')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('text')
+                                            ->label('Custom Ecommerce Feature')
+                                            ->required()
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->addActionLabel('Add new choice')
+                                    ->addActionAlignment('start')
+                                    ->defaultItems(0)
                                     ->columnSpanFull(),
                             ])
                             ->columns(2)
