@@ -601,6 +601,73 @@ class ProposalResource extends Resource
                                     ->addActionAlignment('start')
                                     ->defaultItems(0)
                                     ->columnSpanFull(),
+
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_pro_features')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
+                                // Pro Features
+                                Forms\Components\CheckboxList::make('pro_features')
+                                    ->label('Pro Features')
+                                    ->options([
+                                        'Premium & interactive custom design' => 'Premium & interactive custom design',
+                                        'Diberikan source code' => 'Diberikan source code',
+                                        'Domain dengan ekstensi .com / .co.id / .id (opsional)' => 'Domain dengan ekstensi .com / .co.id / .id (opsional)',
+                                        'Custom desain profesional sampai dengan 10 halaman utama' => 'Custom desain profesional sampai dengan 10 halaman utama',
+                                        'Custom desain profesional sampai dengan 15 halaman utama' => 'Custom desain profesional sampai dengan 15 halaman utama',
+                                        'Custom desain profesional sampai dengan 20 halaman utama' => 'Custom desain profesional sampai dengan 20 halaman utama',
+                                        'Dual Language Feature with Advanced Translation (input manual)' => 'Dual Language Feature with Advanced Translation (input manual)',
+                                        'Kontak via Live Chat, memudahkan pengunjung web untuk menghubungi lewat Live Chat (optional)' => 'Kontak via Live Chat, memudahkan pengunjung web untuk menghubungi lewat Live Chat (optional)',
+                                        'Server dengan Disk Space SSD 20GB' => 'Server dengan Disk Space SSD 20GB',
+                                        'Instagram Auto Feed' => 'Instagram Auto Feed',
+                                        'Multi-admin WhatsApp Button' => 'Multi-admin WhatsApp Button',
+                                        'Integrasi MailChimp untuk subscribe newsletter' => 'Integrasi MailChimp untuk subscribe newsletter',
+                                        'Fitur Archive Posts: halaman arsip artikel (blog) untuk mencantumkan berbagai postingan artikel berikut dengan kategori, sub-kategori, tags' => 'Fitur Archive Posts: halaman arsip artikel (blog) untuk mencantumkan berbagai postingan artikel berikut dengan kategori, sub-kategori, tags',
+                                        'Fitur Single Post: halaman individu untuk masing-masing postingan artikel yang berisi detil konten lebih lanjut' => 'Fitur Single Post: halaman individu untuk masing-masing postingan artikel yang berisi detil konten lebih lanjut',
+                                        'Fitur Archive Products Catalogue: halaman katalog untuk mencantumkan listing produk' => 'Fitur Archive Products Catalogue: halaman katalog untuk mencantumkan listing produk',
+                                        'Fitur Single Product: halaman individu untuk masing-masing produk untuk menampilkan informasi lebih lanjut (tidak ada sistem e-commerce)' => 'Fitur Single Product: halaman individu untuk masing-masing produk untuk menampilkan informasi lebih lanjut (tidak ada sistem e-commerce)',
+                                        'Professional Translation Service (ENG / ID) up to 5000 words' => 'Professional Translation Service (ENG / ID) up to 5000 words',
+                                        'Professional Copywriting Service (ENG / ID) up to 5000 words' => 'Professional Copywriting Service (ENG / ID) up to 5000 words',
+                                        'Premium Stock Assets (photo, icon, video) up to 30 assets' => 'Premium Stock Assets (photo, icon, video) up to 30 assets',
+                                        'High Performance Cloud Server: Kecepatan tinggi dengan tingkat uptime 99,9%, Average speed load kurang dari 4 second, Kapasitas hingga 2000 pengunjung unik setiap harinya, Disk Space SSD 8GB, Unlimited Bandwidth' => 'High Performance Cloud Server: Kecepatan tinggi dengan tingkat uptime 99,9%, Average speed load kurang dari 4 second, Kapasitas hingga 2000 pengunjung unik setiap harinya, Disk Space SSD 8GB, Unlimited Bandwidth',
+                                        'High Performance Cloud Server: Kecepatan tinggi dengan tingkat uptime 99,9%, Average speed load kurang dari 4 second, Kapasitas hingga 2000 pengunjung unik setiap harinya, Disk Space SSD 20GB, Unlimited Bandwidth' => 'High Performance Cloud Server: Kecepatan tinggi dengan tingkat uptime 99,9%, Average speed load kurang dari 4 second, Kapasitas hingga 2000 pengunjung unik setiap harinya, Disk Space SSD 20GB, Unlimited Bandwidth',
+                                        'High Performance Cloud Server: 1vCPU, 2GB RAM, Kecepatan tinggi dengan tingkat uptime 99,9%, Average speed load kurang dari 4 second, Kapasitas hingga 2000 pengunjung unik setiap harinya, Disk Space SSD 50GB, Unlimited Bandwidth' => 'High Performance Cloud Server: 1vCPU, 2GB RAM, Kecepatan tinggi dengan tingkat uptime 99,9%, Average speed load kurang dari 4 second, Kapasitas hingga 2000 pengunjung unik setiap harinya, Disk Space SSD 50GB, Unlimited Bandwidth',
+                                        'SSL (Secure Socket Layer) dengan rating A untuk keamanan pengunjung dan meningkatkan reputasi web di Search Engine' => 'SSL (Secure Socket Layer) dengan rating A untuk keamanan pengunjung dan meningkatkan reputasi web di Search Engine',
+                                        'Backup data secara harian di server atau Google Drive' => 'Backup data secara harian di server atau Google Drive',
+                                        'Major Revision: penambahan fitur dan revisi yang bersifat mayor (tata letak dan desain) hingga 30 hari setelah website selesai, dengan batas hingga 8 kali revisi.' => 'Major Revision: penambahan fitur dan revisi yang bersifat mayor (tata letak dan desain) hingga 30 hari setelah website selesai, dengan batas hingga 8 kali revisi.',
+                                        'Minor Revision: perubahan pada website yang bersifat minor (penggantian font, warna, foto, dan tulisan) 1x sebulan selama Help Desk support berjalan' => 'Minor Revision: perubahan pada website yang bersifat minor (penggantian font, warna, foto, dan tulisan) 1x sebulan selama Help Desk support berjalan',
+                                        'Server support: support dari sisi server (server uptime, performansi, konfigurasi SSL, security server) selama 12 bulan' => 'Server support: support dari sisi server (server uptime, performansi, konfigurasi SSL, security server) selama 12 bulan',
+                                        'Application (web) support: support dari sisi web (performansi web, bug dan troubleshooting) 12 bulan' => 'Application (web) support: support dari sisi web (performansi web, bug dan troubleshooting) 12 bulan',
+                                        'Help Desk support: support dari tim Imajiner yang dapat dihubungi melalui grup WhatsApp sewaktu menemukan kendala, selama 6 bulan' => 'Help Desk support: support dari tim Imajiner yang dapat dihubungi melalui grup WhatsApp sewaktu menemukan kendala, selama 6 bulan',
+                                        'Help Desk support: support dari tim Imajiner yang dapat dihubungi melalui grup WhatsApp sewaktu menemukan kendala, selama 12 bulan' => 'Help Desk support: support dari tim Imajiner yang dapat dihubungi melalui grup WhatsApp sewaktu menemukan kendala, selama 12 bulan',
+                                        'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 5 kali (request) / bulan, tidak terakumulasi' => 'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 5 kali (request) / bulan, tidak terakumulasi',
+                                        'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 10 kali (request) / bulan, tidak terakumulasi' => 'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 10 kali (request) / bulan, tidak terakumulasi',
+                                        'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 15 kali (request) / bulan, tidak terakumulasi' => 'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 15 kali (request) / bulan, tidak terakumulasi',
+                                        'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 20 kali (request) / bulan, tidak terakumulasi' => 'Update support: bantuan dari tim Imajiner untuk melakukan update konten pada website sebanyak 20 kali (request) / bulan, tidak terakumulasi',
+                                        'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 4 jam' => 'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 4 jam',
+                                        'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 6 jam' => 'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 6 jam',
+                                        'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 8 jam' => 'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 8 jam',
+                                        'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 10 jam' => 'Technical support: support dari tim Imajiner untuk perubahan fitur, struktur web, dan penyesuaian teknis lainnya, sebanyak 10 jam',
+                                    ])
+                                    ->default([])
+                                    ->bulkToggleable()
+                                    ->gridDirection('row')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Repeater::make('pro_features_custom')
+                                    ->label('')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('text')
+                                            ->label('Custom Pro Feature')
+                                            ->required()
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->addActionLabel('Add new choice')
+                                    ->addActionAlignment('start')
+                                    ->defaultItems(0)
+                                    ->columnSpanFull(),
                             ])
                             ->columns(2)
                             ->collapsible(),
