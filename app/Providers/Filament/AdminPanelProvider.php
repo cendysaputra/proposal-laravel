@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->brandName('PT Digital Citra Kreatif')
+            ->favicon(asset('fav_icon.ico'))
             ->colors([
                 'primary' => '#004258',
             ])

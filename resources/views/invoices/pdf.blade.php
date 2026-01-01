@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $invoice->title }} - Invoice</title>
+    <link rel="icon" href="{{ asset('fav_icon.ico') }}" type="image/x-icon">
     <style>
         @php
             $s = isset($scale) ? floatval($scale) : 1;
