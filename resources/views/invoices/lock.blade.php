@@ -84,7 +84,7 @@
                         <!-- Submit Button -->
                         <button
                             type="submit"
-                            class="cursor-pointer w-full flex justify-center items-center px-4 py-3 bg-[rgb(239,68,68)] hover:bg-black text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none">
+                            class="cursor-pointer w-full flex justify-center items-center px-4 py-3 bg-black hover:bg-gray-800 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none">
                             Akses Invoice
                         </button>
                     </form>

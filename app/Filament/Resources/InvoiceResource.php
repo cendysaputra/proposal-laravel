@@ -403,7 +403,7 @@ class InvoiceResource extends Resource
                     ->icon('heroicon-o-eye')
                     ->url(fn ($record) => route('invoices.show', $record->slug))
                     ->openUrlInNewTab()
-                    ->color('info'),
+                    ->color('gray'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
