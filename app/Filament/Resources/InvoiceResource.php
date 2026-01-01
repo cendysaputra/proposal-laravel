@@ -121,10 +121,10 @@ class InvoiceResource extends Resource
                             ->required(),
 
                         Forms\Components\Radio::make('brand')
-                            ->label('Brand Logo')
+                            ->label('Select Brand')
                             ->options([
-                                'logobrand-1' => 'Logo Brand 1',
-                                'logobrand-2' => 'Logo Brand 2',
+                                'logobrand-1' => 'Imajiner',
+                                'logobrand-2' => 'Hexagonal',
                             ])
                             ->descriptions([
                                 'logobrand-1' => new HtmlString('<img src="' . asset('images/logobrand-1.png') . '" alt="Logo Brand 1" style="max-width: 200px; max-height: 100px; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px;">'),
@@ -205,6 +205,7 @@ class InvoiceResource extends Resource
                                 Forms\Components\TextInput::make('prepared_position')
                                     ->label('Position / Jabatan')
                                     ->placeholder('Contoh: Managing Director, CEO, etc.')
+                                    -> default('Finance Manager')
                                     ->columnSpanFull(),
 
                                 Forms\Components\Radio::make('paid')
