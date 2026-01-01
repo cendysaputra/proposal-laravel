@@ -524,6 +524,56 @@ class ProposalResource extends Resource
                                         'redo',
                                     ])
                                     ->columnSpanFull(),
+
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_timeline')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
+                                // Timeline Project
+                                Forms\Components\Repeater::make('timeline_project')
+                                    ->label('Timeline Project')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('title')
+                                            ->label('Judul')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TextInput::make('days')
+                                            ->label('Jumlah Hari')
+                                            ->required()
+                                            ->numeric()
+                                            ->default(1)
+                                            ->minValue(0)
+                                            ->suffix('hari')
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->default([
+                                        ['title' => 'Pembayaran DP', 'days' => 1],
+                                        ['title' => 'Inisiasi Project', 'days' => 1],
+                                        ['title' => 'Pengumpulan Materi', 'days' => 2],
+                                        ['title' => 'Pembuatan Kerangka (FIGMA Home)', 'days' => 5],
+                                        ['title' => 'Review Kerangka', 'days' => 2],
+                                        ['title' => 'Proses desain (FIGMA ALL)', 'days' => 5],
+                                        ['title' => 'Review Desain', 'days' => 2],
+                                        ['title' => 'Update Revisi Desain', 'days' => 3],
+                                        ['title' => 'Review Revisi Desain', 'days' => 2],
+                                        ['title' => 'Proses development', 'days' => 5],
+                                        ['title' => 'Proses revisi', 'days' => 4],
+                                        ['title' => 'Update Revisi Development', 'days' => 0],
+                                        ['title' => 'Review Revisi Development', 'days' => 0],
+                                        ['title' => 'Finishing & Pelunasan', 'days' => 2],
+                                        ['title' => 'Pemberian Akses + Guide', 'days' => 1],
+                                        ['title' => 'Desain & development (tanpa FIGMA)', 'days' => 0],
+                                    ])
+                                    ->reorderable()
+                                    ->collapsible()
+                                    ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                                    ->addActionLabel('Add Timeline Item')
+                                    ->addActionAlignment('start')
+                                    ->columnSpanFull(),
                             ])
                             ->columns(2)
                             ->collapsible(),
