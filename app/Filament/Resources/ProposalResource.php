@@ -668,9 +668,56 @@ class ProposalResource extends Resource
                                     ->addActionAlignment('start')
                                     ->defaultItems(0)
                                     ->columnSpanFull(),
+
+                                // Separator
+                                Forms\Components\Placeholder::make('separator_ecommerce_pro_features')
+                                    ->label('')
+                                    ->content(new HtmlString('<hr class="border-t border-gray-300 dark:border-gray-600 my-4">'))
+                                    ->columnSpanFull(),
+
+                                // Ecommerce Pro Features
+                                Forms\Components\CheckboxList::make('ecommerce_pro_features')
+                                    ->label('Ecommerce Pro Features')
+                                    ->options([
+                                        'Diberikan source code' => 'Diberikan source code',
+                                        'Wishlist dan compare' => 'Wishlist dan compare',
+                                        'Invoice dan packing slip' => 'Invoice dan packing slip',
+                                        'Halaman khusus cek resi' => 'Halaman khusus cek resi',
+                                        'Domain dengan ekstensi .com / .co.id / .id (opsional)' => 'Domain dengan ekstensi .com / .co.id / .id (opsional)',
+                                        'Dual Language Feature with Advanced Translation (input manual)' => 'Dual Language Feature with Advanced Translation (input manual)',
+                                        'Kontak via Live Chat, memudahkan pengunjung web untuk menghubungi lewat Live Chat (optional)' => 'Kontak via Live Chat, memudahkan pengunjung web untuk menghubungi lewat Live Chat (optional)',
+                                        'Server dengan Disk Space SSD 20GB' => 'Server dengan Disk Space SSD 20GB',
+                                        'Corporate Security + Content Delivery Network (CDN)' => 'Corporate Security + Content Delivery Network (CDN)',
+                                        'VIP support 12 bulan, koresponden via WhatsApp Grup / Phone' => 'VIP support 12 bulan, koresponden via WhatsApp Grup / Phone',
+                                        'Instagram Auto Feed' => 'Instagram Auto Feed',
+                                        'Free 6 Instagram Post' => 'Free 6 Instagram Post',
+                                        'Multi-admin WhatsApp Button' => 'Multi-admin WhatsApp Button',
+                                        'Integrasi MailChimp untuk subscribe newsletter' => 'Integrasi MailChimp untuk subscribe newsletter',
+                                        'Up to 3000 SKU' => 'Up to 3000 SKU',
+                                        'Premium stock asset berlisensi' => 'Premium stock asset berlisensi',
+                                        'Online marketing campaign up to 100 visitors' => 'Online marketing campaign up to 100 visitors',
+                                    ])
+                                    ->default([])
+                                    ->bulkToggleable()
+                                    ->gridDirection('row')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Repeater::make('ecommerce_pro_features_custom')
+                                    ->label('')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('text')
+                                            ->label('Custom Ecommerce Pro Feature')
+                                            ->required()
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->addActionLabel('Add new choice')
+                                    ->addActionAlignment('start')
+                                    ->defaultItems(0)
+                                    ->columnSpanFull(),
                             ])
                             ->columns(2)
-                            ->collapsible(),
+                            ->collapsible()
+                            ->collapsed(),
                     ])
                     ->columnSpan(['lg' => 2]),
 
