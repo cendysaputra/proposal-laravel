@@ -136,7 +136,7 @@
                         <!-- Brand Logo -->
                         <div>
                             @if($invoice->brand)
-                                <img src="{{ asset('images/' . $invoice->brand . '.png') }}" alt="Brand Logo" class="h-16 object-contain w-70">
+                                <img src="{{ asset('images/' . $invoice->brand . '.png') }}" alt="Brand Logo" class="h-16 w-auto">
                             @endif
                         </div>
                     </div>
@@ -147,19 +147,19 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-end">
                         <!-- Left Column -->
                         <div>
-                            <h3 class="text-sm font-semibold text-[#004258] mb-2">Kepada Yth,</h3>
+                            <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#555555' : '#004258' }}">Kepada Yth,</h3>
                             <div class="text-gray-900 whitespace-pre-line">{{ $invoice->client_info }}</div>
                         </div>
 
                         <!-- Right Column -->
                         <div class="md:text-right">
                             <div class="mb-4">
-                                <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#004258' }}">Tanggal Invoice</h3>
+                                <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#555555' : '#004258' }}">Tanggal Invoice</h3>
                                 <p class="text-lg text-gray-900">{{ $invoice->invoice_date->format('d F Y') }}</p>
                             </div>
 
                             <div>
-                                 <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#004258' }}">Invoice Number</h3>
+                                 <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#555555' : '#004258' }}">Invoice Number</h3>
                                  <p class="text-lg font-mono text-gray-900 mb-4">{{ $invoice->number_invoice }}</p>
                             </div>
                         </div>
