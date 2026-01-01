@@ -25,11 +25,11 @@
 </head>
 <body class="bg-[#F5F5F5]">
     <!-- Floating Download Button -->
-    <button onclick="openPdfModal()" class="cursor-pointer no-print fixed bottom-8 right-8 bg-[#E11D48] text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 z-50 group">
+    <button onclick="openPdfModal()" class="cursor-pointer no-print fixed bottom-8 right-8 bg-[#004258] text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 z-50 group">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
-        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#E11D48] text-white text-sm px-3 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#004258] text-white text-sm px-3 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Download PDF
         </span>
     </button>
@@ -72,7 +72,7 @@
                         <button onclick="closePdfModal()" class="cursor-pointer flex-1 lg:flex-none px-4 sm:px-6 py-2 text-sm sm:text-base border border-gray-300 text-gray-700 hover:bg-black hover:text-white rounded-md transition-colors whitespace-nowrap">
                             Cancel
                         </button>
-                        <button onclick="downloadPdf()" class="cursor-pointer flex-1 lg:flex-none px-4 sm:px-6 py-2 text-sm sm:text-base bg-[#E11D48] text-white rounded-md hover:bg-black transition-colors whitespace-nowrap">
+                        <button onclick="downloadPdf()" class="cursor-pointer flex-1 lg:flex-none px-4 sm:px-6 py-2 text-sm sm:text-base bg-[#004258] text-white rounded-md hover:bg-black transition-colors whitespace-nowrap">
                             Download
                         </button>
                     </div>
@@ -147,19 +147,19 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-end">
                         <!-- Left Column -->
                         <div>
-                            <h3 class="text-sm font-semibold text-gray-500 mb-2">Kepada Yth,</h3>
+                            <h3 class="text-sm font-semibold text-[#004258] mb-2">Kepada Yth,</h3>
                             <div class="text-gray-900 whitespace-pre-line">{{ $invoice->client_info }}</div>
                         </div>
 
                         <!-- Right Column -->
                         <div class="md:text-right">
                             <div class="mb-4">
-                                <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#E11D48' }}">Tanggal Invoice</h3>
+                                <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#004258' }}">Tanggal Invoice</h3>
                                 <p class="text-lg text-gray-900">{{ $invoice->invoice_date->format('d F Y') }}</p>
                             </div>
 
                             <div>
-                                 <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#E11D48' }}">Invoice Number</h3>
+                                 <h3 class="text-sm font-semibold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#004258' }}">Invoice Number</h3>
                                  <p class="text-lg font-mono text-gray-900 mb-4">{{ $invoice->number_invoice }}</p>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                         <div class="mt-16 mb-16">
                             <div class="overflow-x-auto">
                                 <table class="min-w-full">
-                                    <thead style="background-color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#E11D48' }}">
+                                    <thead style="background-color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#004258' }}">
                                         <tr>
                                             <th class="px-4 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Items</th>
                                             <th class="px-4 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Price</th>
@@ -191,7 +191,7 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot style="background-color: {{ $invoice->brand === 'logobrand-2' ? '#E5E7EB' : '#FFC7D3' }}">
+                                    <tfoot style="background-color: {{ $invoice->brand === 'logobrand-2' ? '#E5E7EB' : '#CCE9ED' }}">
                                         <tr>
                                             <td class="px-4 py-4 text-sm font-bold text-gray-900 text-left">TOTAL</td>
                                             <td class="px-4 py-4 text-sm font-bold text-gray-900 text-left">Rp {{ number_format($total, 0, ',', '.') }}</td>
@@ -255,7 +255,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <!-- Left Column - Address & Contacts -->
                             <div>
-                                <h3 class="text-base font-bold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#E11D48' }}">Administrasi Digital</h3>
+                                <h3 class="text-base font-bold mb-2" style="color: {{ $invoice->brand === 'logobrand-2' ? '#000000' : '#004258' }}">PT Digital Citra Kreatif</h3>
                                 <p class=" text-gray-700 mb-4">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
                                 </p>
@@ -268,7 +268,7 @@
                             <!-- Right Column - Copyright -->
                             <div class="flex items-end justify-start md:justify-end mt-6 md:mt-0">
                                 <p class="text-gray-600">
-                                    Copyright &copy; 2026 Administrasi Digital | All Right Reserved
+                                    Copyright &copy; 2026 PT Digital Citra Kreatif | All Right Reserved
                                 </p>
                             </div>
                         </div>

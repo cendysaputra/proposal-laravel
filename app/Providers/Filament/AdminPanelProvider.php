@@ -29,9 +29,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
-            ->brandName('Administrasi Digital')
+            ->brandName('PT Digital Citra Kreatif')
             ->colors([
-                'primary' => Color::Rose,
+                'primary' => '#004258',
             ])
             ->plugins([
                 //
@@ -76,7 +76,7 @@ class AdminPanelProvider extends PanelProvider
                     .fi-sidebar .fi-logo,
                     .fi-sidebar nav > div > a,
                     aside nav > div > a {
-                        color: rgb(225 29 72) !important;
+                        color: rgb(0 66 88) !important;
                         font-weight: 600 !important;
                     }
 
@@ -84,7 +84,7 @@ class AdminPanelProvider extends PanelProvider
                     .dark .fi-sidebar .fi-logo,
                     .dark .fi-sidebar nav > div > a,
                     .dark aside nav > div > a {
-                        color: rgb(251 113 133) !important;
+                        color: rgb(40 190 193) !important;
                     }
                 </style>'
             );
