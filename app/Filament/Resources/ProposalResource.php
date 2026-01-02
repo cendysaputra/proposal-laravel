@@ -955,13 +955,21 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('view')
+                    ->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => route('proposals.show', $record->slug))
+                    ->openUrlInNewTab()
+                    ->color('gray'),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->recordUrl(null)
             ->defaultSort('created_at', 'desc');
     }
 
