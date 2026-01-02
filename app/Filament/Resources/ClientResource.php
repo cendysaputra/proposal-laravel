@@ -227,23 +227,23 @@ class ClientResource extends Resource
                                                 <div class="flex items-center justify-between mt-4">
                                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Proposal</span>
                                                     <div class="flex items-center gap-2">
-                                                        <span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20">' . $proposalYesCount . '</span>
+                                                        <span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-600/20">' . $proposalYesCount . '</span>
                                                         <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $proposalYesPercent . '%</span>
                                                     </div>
                                                 </div>
                                                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                                    <div class="bg-gray-500 h-2.5 rounded-full" style="width: ' . $proposalYesPercent . '%"></div>
+                                                    <div class="bg-purple-600 h-2.5 rounded-full" style="width: ' . $proposalYesPercent . '%"></div>
                                                 </div>
 
                                                 <div class="flex items-center justify-between mt-4">
                                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Mockup</span>
                                                     <div class="flex items-center gap-2">
-                                                        <span class="inline-flex items-center rounded-md bg-cyan-50 px-2 py-1 text-xs font-medium text-cyan-700 ring-1 ring-inset ring-cyan-600/20">' . $mockupCount . '</span>
+                                                        <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">' . $mockupCount . '</span>
                                                         <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $mockupPercent . '%</span>
                                                     </div>
                                                 </div>
                                                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                                    <div class="bg-cyan-500 h-2.5 rounded-full" style="width: ' . $mockupPercent . '%"></div>
+                                                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: ' . $mockupPercent . '%"></div>
                                                 </div>
 
                                                 <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">

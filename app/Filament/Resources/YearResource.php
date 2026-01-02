@@ -58,19 +58,7 @@ class YearResource extends Resource
                 Tables\Columns\TextColumn::make('year')
                     ->label('Tahun')
                     ->sortable()
-                    ->searchable()
-                    ->weight('bold')
-                    ->size('lg'),
-
-                Tables\Columns\TextColumn::make('order')
-                    ->label('Urutan')
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('clients_count')
-                    ->label('Jumlah Client')
-                    ->counts('clients')
-                    ->badge()
-                    ->color('primary'),
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
@@ -90,7 +78,7 @@ class YearResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('order', 'asc');
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
