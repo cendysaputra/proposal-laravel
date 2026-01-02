@@ -19,7 +19,7 @@ class ClientResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'Administration';
+    protected static ?string $navigationGroup = 'Clients';
 
     protected static ?string $modelLabel = 'Client';
 
@@ -56,64 +56,75 @@ class ClientResource extends Resource
             ->schema([
                 Forms\Components\Section::make('Client Information')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Client Name')
+                        Forms\Components\TextInput::make('judul')
+                            ->label('Judul')
+                            ->placeholder('Bulan dan Tahun')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
 
-                        Forms\Components\TextInput::make('company_name')
-                            ->label('Company Name')
-                            ->maxLength(255),
+                        Forms\Components\Repeater::make('client_details')
+                            ->label('Client Details')
+                            ->schema([
+                                Forms\Components\TextInput::make('company_name')
+                                    ->label('Company Name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->columnSpan(2),
 
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email')
-                            ->email()
-                            ->maxLength(255),
+                                Forms\Components\TextInput::make('client_name')
+                                    ->label('Client Name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->columnSpan(2),
 
-                        Forms\Components\TextInput::make('phone')
-                            ->label('Phone Number')
-                            ->tel()
-                            ->maxLength(255),
+                                Forms\Components\DatePicker::make('meeting_date')
+                                    ->label('Meeting Date')
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y')
+                                    ->columnSpan(2),
 
-                        Forms\Components\Select::make('status')
-                            ->label('Status')
-                            ->options([
-                                'active' => 'Active',
-                                'inactive' => 'Inactive',
+                                Forms\Components\Select::make('status')
+                                    ->label('Status')
+                                    ->options([
+                                        'Deal' => 'Deal',
+                                        'Cancel' => 'Cancel',
+                                        'Progress' => 'Progress',
+                                        'Review Mockup' => 'Review Mockup',
+                                    ])
+                                    ->default('Progress')
+                                    ->required()
+                                    ->native(false)
+                                    ->columnSpan(2),
+
+                                Forms\Components\Select::make('proposal')
+                                    ->label('Proposal')
+                                    ->options([
+                                        'No' => 'No',
+                                        'Yes' => 'Yes',
+                                    ])
+                                    ->default('No')
+                                    ->required()
+                                    ->native(false)
+                                    ->columnSpan(2),
+
+                                Forms\Components\TextInput::make('link_mockup')
+                                    ->label('Link Mockup')
+                                    ->url()
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('Notes')
+                                    ->rows(3)
+                                    ->columnSpanFull(),
                             ])
-                            ->default('active')
-                            ->required()
-                            ->native(false),
-                    ])
-                    ->columns(2),
-
-                Forms\Components\Section::make('Address Information')
-                    ->schema([
-                        Forms\Components\Textarea::make('address')
-                            ->label('Address')
-                            ->rows(3)
-                            ->columnSpanFull(),
-
-                        Forms\Components\TextInput::make('city')
-                            ->label('City')
-                            ->maxLength(255),
-
-                        Forms\Components\TextInput::make('province')
-                            ->label('Province')
-                            ->maxLength(255),
-
-                        Forms\Components\TextInput::make('postal_code')
-                            ->label('Postal Code')
-                            ->maxLength(255),
-                    ])
-                    ->columns(2),
-
-                Forms\Components\Section::make('Additional Information')
-                    ->schema([
-                        Forms\Components\Textarea::make('notes')
-                            ->label('Notes')
-                            ->rows(4)
+                            ->columns(10)
+                            ->defaultItems(1)
+                            ->reorderable()
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['company_name'] ?? 'New Client')
+                            ->addActionLabel('Add Client')
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -123,64 +134,33 @@ class ClientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Client Name')
+                Tables\Columns\TextColumn::make('judul')
+                    ->label('Judul (Bulan & Tahun)')
                     ->searchable()
                     ->sortable()
-                    ->limit(40),
+                    ->weight('bold')
+                    ->size('lg'),
 
-                Tables\Columns\TextColumn::make('company_name')
-                    ->label('Company')
-                    ->searchable()
-                    ->sortable()
-                    ->limit(30),
-
-                Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable()
-                    ->sortable()
-                    ->copyable()
-                    ->limit(30),
-
-                Tables\Columns\TextColumn::make('phone')
-                    ->label('Phone')
-                    ->searchable()
-                    ->sortable()
-                    ->copyable(),
-
-                Tables\Columns\TextColumn::make('city')
-                    ->label('City')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\BadgeColumn::make('status')
-                    ->label('Status')
-                    ->colors([
-                        'success' => 'active',
-                        'danger' => 'inactive',
-                    ])
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('client_details')
+                    ->label('Total Clients')
+                    ->formatStateUsing(fn ($state) => is_array($state) ? count($state) . ' client(s)' : '0 client')
+                    ->badge()
+                    ->color('primary'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
-                    ->dateTime('d M Y')
+                    ->dateTime('d M Y, H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated At')
-                    ->dateTime('d M Y')
+                    ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
-                    ])
-                    ->label('Status'),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

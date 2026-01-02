@@ -33,6 +33,10 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('PT Digital Citra Kreatif')
             ->favicon(asset('fav_icon.ico'))
             ->defaultThemeMode(ThemeMode::Light)
+            ->navigationGroups([
+                'Administration',
+                'Clients',
+            ])
             ->colors([
                 'primary' => '#004258',
             ])

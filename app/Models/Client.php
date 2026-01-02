@@ -7,19 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $fillable = [
-        'name',
-        'company_name',
-        'email',
-        'phone',
-        'address',
-        'city',
-        'province',
-        'postal_code',
-        'notes',
-        'status',
+        'judul',
+        'client_details',
     ];
 
     protected $casts = [
-        'status' => 'string',
+        'client_details' => 'array',
     ];
 }
