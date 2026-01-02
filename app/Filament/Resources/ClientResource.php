@@ -111,7 +111,6 @@ class ClientResource extends Resource
                                                 'Deal' => 'Deal',
                                                 'Cancel' => 'Cancel',
                                                 'Progress' => 'Progress',
-                                                'Review Mockup' => 'Review Mockup',
                                             ])
                                             ->default('Progress')
                                             ->required()
@@ -139,13 +138,122 @@ class ClientResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Data Information')
                             ->schema([
-                                Forms\Components\Placeholder::make('created_at')
-                                    ->label('Created at')
-                                    ->content(fn ($record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                                Forms\Components\Placeholder::make('status_statistics')
+                                    ->label('Status Statistics')
+                                    ->content(function ($record) {
+                                        if (!$record || !$record->client_details) {
+                                            return new \Illuminate\Support\HtmlString('
+                                                <div class="text-sm text-gray-500">No data available</div>
+                                            ');
+                                        }
 
-                                Forms\Components\Placeholder::make('updated_at')
-                                    ->label('Last modified at')
-                                    ->content(fn ($record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                                        $details = is_array($record->client_details) ? $record->client_details : [];
+
+                                        $dealCount = 0;
+                                        $progressCount = 0;
+                                        $cancelCount = 0;
+                                        $proposalYesCount = 0;
+                                        $mockupCount = 0;
+
+                                        foreach ($details as $detail) {
+                                            $status = $detail['status'] ?? '';
+                                            switch ($status) {
+                                                case 'Deal':
+                                                    $dealCount++;
+                                                    break;
+                                                case 'Progress':
+                                                    $progressCount++;
+                                                    break;
+                                                case 'Cancel':
+                                                    $cancelCount++;
+                                                    break;
+                                            }
+
+                                            // Count Proposal Yes
+                                            if (($detail['proposal'] ?? '') === 'Yes') {
+                                                $proposalYesCount++;
+                                            }
+
+                                            // Count Mockup (if link_mockup is not empty)
+                                            if (!empty(trim($detail['link_mockup'] ?? ''))) {
+                                                $mockupCount++;
+                                            }
+                                        }
+
+                                        $total = count($details);
+
+                                        $dealPercent = $total > 0 ? round(($dealCount / $total * 100), 1) : 0;
+                                        $progressPercent = $total > 0 ? round(($progressCount / $total * 100), 1) : 0;
+                                        $cancelPercent = $total > 0 ? round(($cancelCount / $total * 100), 1) : 0;
+                                        $proposalYesPercent = $total > 0 ? round(($proposalYesCount / $total * 100), 1) : 0;
+                                        $mockupPercent = $total > 0 ? round(($mockupCount / $total * 100), 1) : 0;
+
+                                        return new \Illuminate\Support\HtmlString('
+                                            <div class="space-y-3">
+                                                <div class="flex items-center justify-between">
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Deal</span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">' . $dealCount . '</span>
+                                                        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $dealPercent . '%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                    <div class="bg-green-600 h-2.5 rounded-full" style="width: ' . $dealPercent . '%"></div>
+                                                </div>
+
+                                                <div class="flex items-center justify-between mt-4">
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Progress</span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20">' . $progressCount . '</span>
+                                                        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $progressPercent . '%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: ' . $progressPercent . '%"></div>
+                                                </div>
+
+                                                <div class="flex items-center justify-between mt-4">
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Cancel</span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">' . $cancelCount . '</span>
+                                                        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $cancelPercent . '%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: ' . $cancelPercent . '%"></div>
+                                                </div>
+
+                                                <div class="flex items-center justify-between mt-4">
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Proposal</span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-600/20">' . $proposalYesCount . '</span>
+                                                        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $proposalYesPercent . '%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                    <div class="bg-purple-600 h-2.5 rounded-full" style="width: ' . $proposalYesPercent . '%"></div>
+                                                </div>
+
+                                                <div class="flex items-center justify-between mt-4">
+                                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Mockup</span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">' . $mockupCount . '</span>
+                                                        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $mockupPercent . '%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: ' . $mockupPercent . '%"></div>
+                                                </div>
+
+                                                <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                                    <div class="flex items-center justify-between">
+                                                        <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Total Clients Masuk</span>
+                                                        <span class="inline-flex items-center rounded-md bg-gray-50 px-2.5 py-1 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-500/10">' . $total . '</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ');
+                                    }),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
