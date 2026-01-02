@@ -64,6 +64,11 @@ class User extends Authenticatable
 
     public function hasPermission(string $permission): bool
     {
+        // Administrator role has all permissions automatically
+        if ($this->hasRole('administrator')) {
+            return true;
+        }
+
         return $this->roles()
             ->whereHas('permissions', function ($query) use ($permission) {
                 $query->where('slug', $permission);
@@ -73,6 +78,11 @@ class User extends Authenticatable
 
     public function hasAnyPermission(array $permissions): bool
     {
+        // Administrator role has all permissions automatically
+        if ($this->hasRole('administrator')) {
+            return true;
+        }
+
         return $this->roles()
             ->whereHas('permissions', function ($query) use ($permissions) {
                 $query->whereIn('slug', $permissions);
@@ -82,6 +92,11 @@ class User extends Authenticatable
 
     public function hasAllPermissions(array $permissions): bool
     {
+        // Administrator role has all permissions automatically
+        if ($this->hasRole('administrator')) {
+            return true;
+        }
+
         foreach ($permissions as $permission) {
             if (!$this->hasPermission($permission)) {
                 return false;
@@ -92,6 +107,11 @@ class User extends Authenticatable
 
     public function getAllPermissions()
     {
+        // Administrator role gets all permissions automatically
+        if ($this->hasRole('administrator')) {
+            return Permission::all();
+        }
+
         return $this->roles()
             ->with('permissions')
             ->get()
