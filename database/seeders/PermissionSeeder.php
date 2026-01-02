@@ -25,6 +25,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'Edit Invoices', 'slug' => 'edit-invoices', 'description' => 'Can edit invoices', 'group' => 'Invoices'],
             ['name' => 'Delete Invoices', 'slug' => 'delete-invoices', 'description' => 'Can delete invoices', 'group' => 'Invoices'],
 
+            // Client Permissions
+            ['name' => 'View Clients', 'slug' => 'view-clients', 'description' => 'Can view clients', 'group' => 'Clients'],
+            ['name' => 'Create Clients', 'slug' => 'create-clients', 'description' => 'Can create clients', 'group' => 'Clients'],
+            ['name' => 'Edit Clients', 'slug' => 'edit-clients', 'description' => 'Can edit clients', 'group' => 'Clients'],
+            ['name' => 'Delete Clients', 'slug' => 'delete-clients', 'description' => 'Can delete clients', 'group' => 'Clients'],
+
             // User Management Permissions
             ['name' => 'View Users', 'slug' => 'view-users', 'description' => 'Can view users', 'group' => 'Users'],
             ['name' => 'Create Users', 'slug' => 'create-users', 'description' => 'Can create users', 'group' => 'Users'],
