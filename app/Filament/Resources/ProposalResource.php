@@ -906,18 +906,38 @@ class ProposalResource extends Resource
                     ->limit(50)
                     ->url(fn ($record) => ProposalResource::getUrl('edit', ['record' => $record])),
 
+                Tables\Columns\TextColumn::make('client_name')
+                    ->label('Nama Klien')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(30),
+
+                Tables\Columns\TextColumn::make('proposal_number')
+                    ->label('Invoice Number')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->limit(30),
+
+                Tables\Columns\TextColumn::make('company_name')
+                    ->label('Company Name')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(30),
+
+                Tables\Columns\TextColumn::make('published_at')
+                    ->label('Tanggal Publish')
+                    ->dateTime('d M Y, H:i')
+                    ->sortable()
+                    ->placeholder('Draft'),
+
                 Tables\Columns\TextColumn::make('slug')
                     ->label('Slug')
                     ->searchable()
                     ->sortable()
                     ->copyable()
-                    ->limit(40),
-
-                Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
-                    ->badge()
-                    ->searchable()
-                    ->sortable(),
+                    ->limit(40)
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
