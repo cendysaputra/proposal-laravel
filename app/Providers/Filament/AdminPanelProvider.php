@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -31,6 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->brandName('PT Digital Citra Kreatif')
             ->favicon(asset('fav_icon.ico'))
+            ->defaultThemeMode(ThemeMode::Light)
             ->colors([
                 'primary' => '#004258',
             ])
