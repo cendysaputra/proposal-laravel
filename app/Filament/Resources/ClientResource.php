@@ -127,6 +127,7 @@ class ClientResource extends Resource
                                     ->defaultItems(1)
                                     ->reorderable()
                                     ->collapsible()
+                                    ->collapsed()
                                     ->itemLabel(fn (array $state): ?string => $state['company_name'] ?? 'New Client')
                                     ->addActionLabel('Add Client')
                                     ->columnSpanFull(),
@@ -226,23 +227,23 @@ class ClientResource extends Resource
                                                 <div class="flex items-center justify-between mt-4">
                                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Proposal</span>
                                                     <div class="flex items-center gap-2">
-                                                        <span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-600/20">' . $proposalYesCount . '</span>
+                                                        <span class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20">' . $proposalYesCount . '</span>
                                                         <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $proposalYesPercent . '%</span>
                                                     </div>
                                                 </div>
                                                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                                    <div class="bg-purple-600 h-2.5 rounded-full" style="width: ' . $proposalYesPercent . '%"></div>
+                                                    <div class="bg-gray-500 h-2.5 rounded-full" style="width: ' . $proposalYesPercent . '%"></div>
                                                 </div>
 
                                                 <div class="flex items-center justify-between mt-4">
                                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Mockup</span>
                                                     <div class="flex items-center gap-2">
-                                                        <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">' . $mockupCount . '</span>
+                                                        <span class="inline-flex items-center rounded-md bg-cyan-50 px-2 py-1 text-xs font-medium text-cyan-700 ring-1 ring-inset ring-cyan-600/20">' . $mockupCount . '</span>
                                                         <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">' . $mockupPercent . '%</span>
                                                     </div>
                                                 </div>
                                                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: ' . $mockupPercent . '%"></div>
+                                                    <div class="bg-cyan-500 h-2.5 rounded-full" style="width: ' . $mockupPercent . '%"></div>
                                                 </div>
 
                                                 <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -255,6 +256,45 @@ class ClientResource extends Resource
                                         ');
                                     }),
                             ]),
+
+                        Forms\Components\Section::make('Data Client Filter')
+                            ->schema([
+                                Forms\Components\Select::make('month')
+                                    ->label('Bulan')
+                                    ->options([
+                                        'Januari' => 'Januari',
+                                        'Februari' => 'Februari',
+                                        'Maret' => 'Maret',
+                                        'April' => 'April',
+                                        'Mei' => 'Mei',
+                                        'Juni' => 'Juni',
+                                        'Juli' => 'Juli',
+                                        'Agustus' => 'Agustus',
+                                        'September' => 'September',
+                                        'Oktober' => 'Oktober',
+                                        'November' => 'November',
+                                        'Desember' => 'Desember',
+                                    ])
+                                    ->native(false)
+                                    ->placeholder('Pilih Bulan'),
+
+                                Forms\Components\CheckboxList::make('years')
+                                    ->label('Tahun')
+                                    ->relationship('years', 'year')
+                                    ->options(fn () => \App\Models\Year::orderBy('order')->pluck('year', 'id'))
+                                    ->extraAttributes([
+                                        'class' => 'max-h-48 overflow-y-auto pr-2',
+                                    ]),
+
+                                Forms\Components\Actions::make([
+                                    Forms\Components\Actions\Action::make('manageYears')
+                                        ->label('Kelola Tahun')
+                                        ->url(fn () => route('filament.admin.resources.years.index'))
+                                        ->openUrlInNewTab()
+                                        ->color('gray')
+                                        ->size('sm'),
+                                ]),
+                            ]),
                     ])
                     ->columnSpan(['lg' => 1]),
             ])
@@ -266,23 +306,103 @@ class ClientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('judul')
-                    ->label('Judul (Bulan & Tahun)')
+                    ->label('Judul')
                     ->searchable()
-                    ->sortable()
-                    ->weight('bold')
-                    ->size('lg'),
+                    ->sortable(),
 
-                Tables\Columns\TextColumn::make('client_details')
-                    ->label('Total Clients')
-                    ->formatStateUsing(fn ($state) => is_array($state) ? count($state) . ' client(s)' : '0 client')
+                Tables\Columns\TextColumn::make('progress_count')
+                    ->label('Progress')
+                    ->state(function ($record) {
+                        if (!$record->client_details) return '0 (0%)';
+                        $details = is_array($record->client_details) ? $record->client_details : [];
+                        $total = count($details);
+                        if ($total === 0) return '0 (0%)';
+                        $count = collect($details)->where('status', 'Progress')->count();
+                        $percentage = round(($count / $total) * 100, 1);
+                        return $count . ' (' . $percentage . '%)';
+                    })
                     ->badge()
-                    ->color('primary'),
+                    ->color('warning'),
+
+                Tables\Columns\TextColumn::make('deal_count')
+                    ->label('Deal')
+                    ->state(function ($record) {
+                        if (!$record->client_details) return '0 (0%)';
+                        $details = is_array($record->client_details) ? $record->client_details : [];
+                        $total = count($details);
+                        if ($total === 0) return '0 (0%)';
+                        $count = collect($details)->where('status', 'Deal')->count();
+                        $percentage = round(($count / $total) * 100, 1);
+                        return $count . ' (' . $percentage . '%)';
+                    })
+                    ->badge()
+                    ->color('success'),
+
+                Tables\Columns\TextColumn::make('cancel_count')
+                    ->label('Cancel')
+                    ->state(function ($record) {
+                        if (!$record->client_details) return '0 (0%)';
+                        $details = is_array($record->client_details) ? $record->client_details : [];
+                        $total = count($details);
+                        if ($total === 0) return '0 (0%)';
+                        $count = collect($details)->where('status', 'Cancel')->count();
+                        $percentage = round(($count / $total) * 100, 1);
+                        return $count . ' (' . $percentage . '%)';
+                    })
+                    ->badge()
+                    ->color('danger'),
+
+                Tables\Columns\TextColumn::make('proposal_count')
+                    ->label('Proposal')
+                    ->state(function ($record) {
+                        if (!$record->client_details) return '0 (0%)';
+                        $details = is_array($record->client_details) ? $record->client_details : [];
+                        $total = count($details);
+                        if ($total === 0) return '0 (0%)';
+                        $count = collect($details)->where('proposal', 'Yes')->count();
+                        $percentage = round(($count / $total) * 100, 1);
+                        return $count . ' (' . $percentage . '%)';
+                    })
+                    ->badge()
+                    ->color('gray'),
+
+                Tables\Columns\TextColumn::make('mockup_count')
+                    ->label('Mockup')
+                    ->state(function ($record) {
+                        if (!$record->client_details) return '0 (0%)';
+                        $details = is_array($record->client_details) ? $record->client_details : [];
+                        $total = count($details);
+                        if ($total === 0) return '0 (0%)';
+                        $count = collect($details)->filter(function ($detail) {
+                            return !empty(trim($detail['link_mockup'] ?? ''));
+                        })->count();
+                        $percentage = round(($count / $total) * 100, 1);
+                        return $count . ' (' . $percentage . '%)';
+                    })
+                    ->badge()
+                    ->color('info'),
+
+                Tables\Columns\TextColumn::make('meeting_count')
+                    ->label('Meeting')
+                    ->state(function ($record) {
+                        if (!$record->client_details) return '0 (0%)';
+                        $details = is_array($record->client_details) ? $record->client_details : [];
+                        $total = count($details);
+                        if ($total === 0) return '0 (0%)';
+                        $count = collect($details)->filter(function ($detail) {
+                            return !empty($detail['meeting_date'] ?? null);
+                        })->count();
+                        $percentage = round(($count / $total) * 100, 1);
+                        return $count . ' (' . $percentage . '%)';
+                    })
+                    ->badge()
+                    ->color('violet'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime('d M Y, H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated At')
