@@ -662,7 +662,7 @@ class ProposalResource extends Resource
                                 Forms\Components\CheckboxList::make('pro_features')
                                     ->label('Pro Features')
                                     ->options([
-                                        'Premium & interactive custom design' => 'Premium & interactive custom design',
+                                        'Premium & interactive custom design' => 'Premium and interactive custom design',
                                         'Diberikan source code' => 'Diberikan source code',
                                         'Domain dengan ekstensi .com / .co.id / .id (opsional)' => 'Domain dengan ekstensi .com / .co.id / .id (opsional)',
                                         'Custom desain profesional sampai dengan 10 halaman utama' => 'Custom desain profesional sampai dengan 10 halaman utama',
