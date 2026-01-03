@@ -54,6 +54,18 @@ class InvoicesChartWidget extends ChartWidget
                     'display' => false,
                 ],
             ],
+            'scales' => [
+                'y' => [
+                    'grid' => [
+                        'display' => false,
+                    ],
+                ],
+                'x' => [
+                    'grid' => [
+                        'display' => false,
+                    ],
+                ],
+            ],
         ];
     }
 }

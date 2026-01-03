@@ -32,8 +32,8 @@ class ProposalsChartWidget extends ChartWidget
                 [
                     'label' => 'Proposals',
                     'data' => $proposalData->toArray(),
-                    'backgroundColor' => 'rgba(0, 66, 88, 0.1)',
-                    'borderColor' => 'rgba(0, 66, 88, 1)',
+                    'backgroundColor' => 'rgba(56, 189, 248, 0.1)',
+                    'borderColor' => 'rgba(56, 189, 248, 1)',
                     'fill' => true,
                 ],
             ],
@@ -52,6 +52,18 @@ class ProposalsChartWidget extends ChartWidget
             'plugins' => [
                 'legend' => [
                     'display' => false,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'grid' => [
+                        'display' => false,
+                    ],
+                ],
+                'x' => [
+                    'grid' => [
+                        'display' => false,
+                    ],
                 ],
             ],
         ];
