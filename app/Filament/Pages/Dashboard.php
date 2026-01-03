@@ -2,7 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\InvoicesChartWidget;
+use App\Filament\Widgets\ProposalsChartWidget;
+use App\Filament\Widgets\ProposalsStatsWidget;
 use Filament\Pages\Dashboard as BaseDashboard;
+use Filament\Widgets\AccountWidget;
 
 class Dashboard extends BaseDashboard
 {
@@ -19,5 +23,15 @@ class Dashboard extends BaseDashboard
         $userName = auth()->user()->name ?? 'User';
 
         return "{$greeting}, {$userName}";
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            ProposalsStatsWidget::class,
+            ProposalsChartWidget::class,
+            InvoicesChartWidget::class,
+            AccountWidget::class,
+        ];
     }
 }
