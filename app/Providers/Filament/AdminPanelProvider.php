@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
                 'Clients',
             ])
             ->colors([
-                'primary' => '#004258',
+                'primary' => Color::Amber,
             ])
             ->plugins([
                 //
@@ -76,22 +76,6 @@ class AdminPanelProvider extends PanelProvider
                     }
                     .dark .fi-sidebar {
                         border-right: 1px solid rgb(55 65 81) !important;
-                    }
-
-                    /* Brand name color - multiple selectors to ensure it works */
-                    .fi-sidebar-header .fi-sidebar-brand,
-                    .fi-sidebar .fi-logo,
-                    .fi-sidebar nav > div > a,
-                    aside nav > div > a {
-                        color: rgb(0 66 88) !important;
-                        font-weight: 600 !important;
-                    }
-
-                    .dark .fi-sidebar-header .fi-sidebar-brand,
-                    .dark .fi-sidebar .fi-logo,
-                    .dark .fi-sidebar nav > div > a,
-                    .dark aside nav > div > a {
-                        color: rgb(40 190 193) !important;
                     }
                 </style>'
             );
