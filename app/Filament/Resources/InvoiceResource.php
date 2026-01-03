@@ -203,7 +203,7 @@ class InvoiceResource extends Resource
                                     ->columnSpanFull(),
 
                                 Forms\Components\TextInput::make('prepared_position')
-                                    ->label('Position / Jabatan')
+                                    ->label('Position')
                                     ->placeholder('Contoh: Managing Director, CEO, etc.')
                                     -> default('Finance Manager')
                                     ->columnSpanFull(),
