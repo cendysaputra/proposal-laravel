@@ -147,19 +147,19 @@ class InvoiceResource extends Resource
                         Forms\Components\Repeater::make('item_details')
                             ->label('Invoice Items')
                             ->schema([
-                              Forms\Components\TextInput::make('qty')
-                            ->label('QTY')
-                            ->numeric()
-                            ->required()
-                            ->minValue(1)
-                            ->maxValue(99999)
-                            ->columnSpan(1),
-        
+                              // Forms\Components\TextInput::make('qty')
+                            // ->label('QTY')
+                            // ->numeric()
+                            // ->required()
+                            // ->minValue(1)
+                            // ->maxValue(99999)
+                            // ->columnSpan(1),
+
                         Forms\Components\TextInput::make('items')
                             ->label('Items / Description')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(2),
+                            ->columnSpan(3),
         
                         Forms\Components\TextInput::make('price')
                             ->label('Price')
