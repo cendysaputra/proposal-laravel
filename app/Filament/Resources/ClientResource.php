@@ -12,10 +12,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use App\Filament\Imports\ClientImporter;
 
 class ClientResource extends Resource
 {
@@ -417,17 +413,6 @@ class ClientResource extends Resource
             ->filters([
                 //
             ])
-            ->headerActions([
-                ExportAction::make()
-                    ->label('Export CSV')
-                    ->color('primary')
-                    ->exports([
-                        ExcelExport::make()
-                            ->fromTable()
-                            ->withFilename(fn () => 'clients-' . date('Y-m-d'))
-                            ->withWriterType(\Maatwebsite\Excel\Excel::CSV),
-                    ]),
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -435,13 +420,6 @@ class ClientResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    ExportBulkAction::make()
-                        ->exports([
-                            ExcelExport::make()
-                                ->fromTable()
-                                ->withFilename(fn () => 'clients-selected-' . date('Y-m-d'))
-                                ->withWriterType(\Maatwebsite\Excel\Excel::CSV),
-                        ]),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
