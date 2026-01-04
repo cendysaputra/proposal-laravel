@@ -42,17 +42,34 @@ class EditClient extends EditRecord
 
                     $clientDetails = [];
                     foreach ($csv as $row) {
-                        if (count($row) >= 7) {
-                            $clientDetails[] = [
-                                'company_name' => $row[0] ?? '',
-                                'client_name' => $row[1] ?? '',
-                                'meeting_date' => $row[2] ?? null,
-                                'proposal' => $row[3] ?? 'No',
-                                'link_mockup' => $row[4] ?? '',
-                                'status' => $row[5] ?? 'Progress',
-                                'notes' => $row[6] ?? '',
-                            ];
+                        // Skip empty rows or rows with invalid data
+                        if (count($row) < 7) {
+                            continue;
                         }
+
+                        $companyName = trim($row[0] ?? '');
+                        $clientName = trim($row[1] ?? '');
+
+                        // Skip if company_name or client_name is empty or contains TRUE/FALSE
+                        if (empty($companyName) || empty($clientName)) {
+                            continue;
+                        }
+
+                        // Skip if data looks like boolean values or invalid data
+                        if (in_array(strtoupper($companyName), ['TRUE', 'FALSE', '1', '0']) ||
+                            in_array(strtoupper($clientName), ['TRUE', 'FALSE', '1', '0'])) {
+                            continue;
+                        }
+
+                        $clientDetails[] = [
+                            'company_name' => $companyName,
+                            'client_name' => $clientName,
+                            'meeting_date' => !empty(trim($row[2] ?? '')) ? trim($row[2]) : null,
+                            'proposal' => in_array(trim($row[3] ?? ''), ['Yes', 'No']) ? trim($row[3]) : 'No',
+                            'link_mockup' => trim($row[4] ?? ''),
+                            'status' => in_array(trim($row[5] ?? ''), ['Deal', 'Cancel', 'Progress']) ? trim($row[5]) : 'Progress',
+                            'notes' => trim($row[6] ?? ''),
+                        ];
                     }
 
                     $this->record->client_details = $clientDetails;
