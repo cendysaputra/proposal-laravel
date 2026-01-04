@@ -27,7 +27,9 @@ class AdminPanelProvider extends PanelProvider
     {
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
-                ->locales(['id', 'en']);
+                ->locales(['id', 'en'])
+                ->outsidePanelPlacement(\BezhanSalleh\FilamentLanguageSwitch\Enums\Placement::TopRight)
+                ->circular();
         });
     }
 
@@ -72,6 +74,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\SetLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Set default locale to Indonesian
+        app()->setLocale('id');
+        config(['app.locale' => 'id']);
+        config(['app.fallback_locale' => 'en']);
     }
 }
