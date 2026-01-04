@@ -77,7 +77,7 @@
         .label-red {
             font-size: {{ 14 * $s }}px;
             font-weight: 600;
-            color: {{ $invoice->brand === 'logobrand-2' ? '#CCCCCC' : '#004258' }};
+            color: {{ $invoice->brand === 'logobrand-2' ? '#555555' : '#004258' }};
             margin-bottom: {{ 8 * $s }}px;
         }
 
@@ -256,7 +256,7 @@
             <table>
                 <tr>
                     <td>
-                        <div class="label-gray">Kepada Yth,</div>
+                        <div class="label-red">Kepada Yth,</div>
                         <div class="value">{{ $invoice->client_info }}</div>
                     </td>
                     <td class="right">
