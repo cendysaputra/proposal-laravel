@@ -12,6 +12,15 @@ class CreateClient extends CreateRecord
 {
     protected static string $resource = ClientResource::class;
 
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getCreateFormAction(),
+            $this->getCreateAnotherFormAction(),
+            $this->getCancelFormAction(),
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
