@@ -57,48 +57,41 @@
                                 </div>
 
                                 <!-- Statistics -->
-                                <div class="space-y-3 mb-4">
-                                    <!-- Total Clients -->
-                                    <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                                        <span class="text-sm font-medium text-gray-700">Total Klien</span>
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-semibold text-gray-900">
-                                            {{ $total }}
-                                        </span>
+                                <div class="flex gap-2 mb-4">
+                                    <!-- Total Klien -->
+                                    <div class="flex-1 text-center p-2 bg-gray-50 rounded-lg">
+                                        <div class="text-xs text-gray-600 mb-1">Total</div>
+                                        <div class="text-lg font-bold text-gray-900">{{ $total }}</div>
                                     </div>
 
-                                    <!-- Status Breakdown -->
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <!-- Deal -->
-                                        <div class="flex items-center justify-between p-2 bg-green-50 rounded-lg">
-                                            <span class="text-xs font-medium text-green-700">Deal</span>
-                                            <span class="text-sm font-bold text-green-800">{{ $dealCount }}</span>
-                                        </div>
-
-                                        <!-- Progress -->
-                                        <div class="flex items-center justify-between p-2 bg-yellow-50 rounded-lg">
-                                            <span class="text-xs font-medium text-yellow-700">Progress</span>
-                                            <span class="text-sm font-bold text-yellow-800">{{ $progressCount }}</span>
-                                        </div>
-
-                                        <!-- Cancel -->
-                                        <div class="flex items-center justify-between p-2 bg-red-50 rounded-lg">
-                                            <span class="text-xs font-medium text-red-700">Cancel</span>
-                                            <span class="text-sm font-bold text-red-800">{{ $cancelCount }}</span>
-                                        </div>
-
-                                        <!-- Proposal -->
-                                        <div class="flex items-center justify-between p-2 bg-purple-50 rounded-lg">
-                                            <span class="text-xs font-medium text-purple-700">Proposal</span>
-                                            <span class="text-sm font-bold text-purple-800">{{ $proposalCount }}</span>
-                                        </div>
+                                    <!-- Deal -->
+                                    <div class="flex-1 text-center p-2 bg-green-50 rounded-lg">
+                                        <div class="text-xs text-green-700 mb-1">Deal</div>
+                                        <div class="text-lg font-bold text-green-800">{{ $dealCount }}</div>
                                     </div>
 
-                                    <!-- Additional Info -->
-                                    <div class="flex items-center text-xs text-gray-600 pt-2">
-                                        <svg class="w-4 h-4 mr-1 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        <span>{{ $mockupCount }} Mockup</span>
+                                    <!-- Progress -->
+                                    <div class="flex-1 text-center p-2 bg-yellow-50 rounded-lg">
+                                        <div class="text-xs text-yellow-700 mb-1">Progress</div>
+                                        <div class="text-lg font-bold text-yellow-800">{{ $progressCount }}</div>
+                                    </div>
+
+                                    <!-- Cancel -->
+                                    <div class="flex-1 text-center p-2 bg-red-50 rounded-lg">
+                                        <div class="text-xs text-red-700 mb-1">Cancel</div>
+                                        <div class="text-lg font-bold text-red-800">{{ $cancelCount }}</div>
+                                    </div>
+
+                                    <!-- Proposal -->
+                                    <div class="flex-1 text-center p-2 bg-purple-50 rounded-lg">
+                                        <div class="text-xs text-purple-700 mb-1">Proposal</div>
+                                        <div class="text-lg font-bold text-purple-800">{{ $proposalCount }}</div>
+                                    </div>
+
+                                    <!-- Mockup -->
+                                    <div class="flex-1 text-center p-2 bg-indigo-50 rounded-lg">
+                                        <div class="text-xs text-indigo-700 mb-1">Mockup</div>
+                                        <div class="text-lg font-bold text-indigo-800">{{ $mockupCount }}</div>
                                     </div>
                                 </div>
 
