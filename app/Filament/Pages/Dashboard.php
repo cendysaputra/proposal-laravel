@@ -2,9 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\ClientsStatsWidget;
 use App\Filament\Widgets\InvoicesChartWidget;
 use App\Filament\Widgets\ProposalsChartWidget;
 use App\Filament\Widgets\ProposalsStatsWidget;
+use App\Filament\Widgets\RecentClientsWidget;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Widgets\AccountWidget;
 
@@ -29,8 +31,10 @@ class Dashboard extends BaseDashboard
     {
         return [
             ProposalsStatsWidget::class,
+            ClientsStatsWidget::class,
             ProposalsChartWidget::class,
             InvoicesChartWidget::class,
+            RecentClientsWidget::class,
             AccountWidget::class,
         ];
     }

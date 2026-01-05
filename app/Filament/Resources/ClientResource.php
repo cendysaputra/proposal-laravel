@@ -414,6 +414,12 @@ class ClientResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('view')
+                    ->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn (Client $record): string => route('clients.show', $record->id))
+                    ->openUrlInNewTab(true)
+                    ->color('info'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
