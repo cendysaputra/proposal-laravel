@@ -18,30 +18,20 @@
         <!-- Header -->
         <header class="bg-white shadow-sm border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <a href="{{ route('clients.index') }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-2">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                            Kembali ke Data Clients
-                        </a>
-                        <h1 class="text-3xl font-bold text-gray-900">{{ $client->judul }}</h1>
-                        <div class="mt-2 flex items-center gap-2">
-                            @if($client->month)
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    {{ $client->month }}
-                                </span>
-                            @endif
-                            @if($client->years->isNotEmpty())
-                                @foreach($client->years as $year)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                        {{ $year->year }}
-                                    </span>
-                                @endforeach
-                            @endif
-                        </div>
-                    </div>
+                <h1 class="text-3xl font-bold text-gray-900">{{ $client->judul }}</h1>
+                <div class="mt-2 flex items-center gap-2">
+                    @if($client->month)
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            {{ $client->month }}
+                        </span>
+                    @endif
+                    @if($client->years->isNotEmpty())
+                        @foreach($client->years as $year)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                {{ $year->year }}
+                            </span>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </header>

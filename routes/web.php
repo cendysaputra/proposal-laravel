@@ -25,4 +25,4 @@ Route::post('/proposals/{slug}/unlock', [\App\Http\Controllers\ProposalControlle
 
 // Client Routes
 Route::get('/clients', [\App\Http\Controllers\ClientController::class, 'index'])->name('clients.index');
-Route::get('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'show'])->name('clients.show');
+Route::get('/clients/{slug}', [\App\Http\Controllers\ClientController::class, 'show'])->name('clients.show');

@@ -32,9 +32,9 @@ class ClientController extends Controller
         return view('clients.index', compact('clients', 'months', 'years'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $client = Client::findOrFail($id);
+        $client = Client::where('slug', $slug)->firstOrFail();
         return view('clients.show', compact('client'));
     }
 }

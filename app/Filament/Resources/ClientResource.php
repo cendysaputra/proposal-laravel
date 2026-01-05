@@ -63,6 +63,30 @@ class ClientResource extends Resource
                                     ->placeholder('Bulan dan Tahun')
                                     ->required()
                                     ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                        if ($operation === 'create') {
+                                            $set('slug', \Illuminate\Support\Str::slug($state));
+                                        }
+                                    })
+                                    ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('slug')
+                                    ->label('Slug')
+                                    ->required()
+                                    ->unique(ignoreRecord: true)
+                                    ->maxLength(255)
+                                    ->suffixAction(
+                                        Forms\Components\Actions\Action::make('regenerate')
+                                            ->icon('heroicon-m-arrow-path')
+                                            ->tooltip('Regenerate slug from title')
+                                            ->action(function (Forms\Set $set, Forms\Get $get) {
+                                                $judul = $get('judul');
+                                                if ($judul) {
+                                                    $set('slug', \Illuminate\Support\Str::slug($judul));
+                                                }
+                                            })
+                                    )
                                     ->columnSpanFull(),
 
                                 Forms\Components\Repeater::make('client_details')
@@ -310,6 +334,13 @@ class ClientResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Slug copied!')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('progress_count')
                     ->label('Progress')
                     ->state(function ($record) {
@@ -417,7 +448,7 @@ class ClientResource extends Resource
                 Tables\Actions\Action::make('view')
                     ->label('View')
                     ->icon('heroicon-o-eye')
-                    ->url(fn (Client $record): string => route('clients.show', $record->id))
+                    ->url(fn (Client $record): string => route('clients.show', $record->slug))
                     ->openUrlInNewTab(true)
                     ->color('info'),
                 Tables\Actions\EditAction::make(),

@@ -165,7 +165,7 @@
                                 </div>
 
                                 <!-- View Button -->
-                                <a href="{{ route('clients.show', $client->id) }}" class="block w-full text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                                <a href="{{ route('clients.show', $client->slug) }}" class="block w-full text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
                                     Lihat Detail
                                 </a>
                             </div>
