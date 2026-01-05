@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 class Client extends Model
@@ -11,7 +10,6 @@ class Client extends Model
     protected $fillable = [
         'judul',
         'slug',
-        'month',
         'client_details',
     ];
 
@@ -48,10 +46,5 @@ class Client extends Model
         }
 
         return $slug;
-    }
-
-    public function years(): BelongsToMany
-    {
-        return $this->belongsToMany(Year::class);
     }
 }

@@ -280,45 +280,6 @@ class ClientResource extends Resource
                                         ');
                                     }),
                             ]),
-
-                        Forms\Components\Section::make('Data Client Filter')
-                            ->schema([
-                                Forms\Components\Select::make('month')
-                                    ->label('Bulan')
-                                    ->options([
-                                        'Januari' => 'Januari',
-                                        'Februari' => 'Februari',
-                                        'Maret' => 'Maret',
-                                        'April' => 'April',
-                                        'Mei' => 'Mei',
-                                        'Juni' => 'Juni',
-                                        'Juli' => 'Juli',
-                                        'Agustus' => 'Agustus',
-                                        'September' => 'September',
-                                        'Oktober' => 'Oktober',
-                                        'November' => 'November',
-                                        'Desember' => 'Desember',
-                                    ])
-                                    ->native(false)
-                                    ->placeholder('Pilih Bulan'),
-
-                                Forms\Components\CheckboxList::make('years')
-                                    ->label('Tahun')
-                                    ->relationship('years', 'year')
-                                    ->options(fn () => \App\Models\Year::orderBy('order')->pluck('year', 'id'))
-                                    ->extraAttributes([
-                                        'class' => 'max-h-48 overflow-y-auto pr-2',
-                                    ]),
-
-                                Forms\Components\Actions::make([
-                                    Forms\Components\Actions\Action::make('manageYears')
-                                        ->label('Kelola Tahun')
-                                        ->url(fn () => route('filament.admin.resources.years.index'))
-                                        ->openUrlInNewTab()
-                                        ->color('gray')
-                                        ->size('sm'),
-                                ]),
-                            ]),
                     ])
                     ->columnSpan(['lg' => 1]),
             ])

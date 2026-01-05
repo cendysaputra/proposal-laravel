@@ -28,11 +28,6 @@ class RecentClientsWidget extends BaseWidget
                     ->limit(30)
                     ->tooltip(fn ($record) => $record->judul),
 
-                Tables\Columns\TextColumn::make('month')
-                    ->label('Bulan')
-                    ->badge()
-                    ->color('primary'),
-
                 Tables\Columns\TextColumn::make('total_clients')
                     ->label('Total Klien')
                     ->state(function ($record) {
@@ -52,7 +47,7 @@ class RecentClientsWidget extends BaseWidget
                 Tables\Actions\Action::make('view_data')
                     ->label('View Data')
                     ->icon('heroicon-o-eye')
-                    ->url(fn (Client $record): string => route('clients.show', $record->id))
+                    ->url(fn (Client $record): string => route('clients.show', $record->slug))
                     ->openUrlInNewTab(true)
                     ->color('primary'),
             ]);

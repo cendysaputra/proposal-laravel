@@ -7,29 +7,11 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $query = Client::query();
+        $clients = Client::orderBy('created_at', 'desc')->paginate(12);
 
-        // Filter by month if specified
-        if ($request->has('month') && $request->month !== '') {
-            $query->where('month', $request->month);
-        }
-
-        // Filter by year if specified
-        if ($request->has('year') && $request->year !== '') {
-            $query->whereHas('years', function ($q) use ($request) {
-                $q->where('year', $request->year);
-            });
-        }
-
-        $clients = $query->orderBy('created_at', 'desc')->paginate(12);
-
-        // Get distinct months and years for filters
-        $months = Client::distinct()->pluck('month')->filter()->sort()->values();
-        $years = \App\Models\Year::orderBy('year', 'desc')->get();
-
-        return view('clients.index', compact('clients', 'months', 'years'));
+        return view('clients.index', compact('clients'));
     }
 
     public function show($slug)
