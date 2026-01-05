@@ -36,29 +36,11 @@
 
             <!-- Statistics Overview -->
             <div class="flex gap-4 mb-8">
-                <div class="flex-1 bg-white rounded-lg shadow-sm p-4">
-                    <div class="text-sm font-medium text-gray-600 mb-1">Total Klien</div>
-                    <div class="text-2xl font-bold text-gray-900">{{ $total }}</div>
-                </div>
-                <div class="flex-1 bg-green-50 rounded-lg shadow-sm p-4">
-                    <div class="text-sm font-medium text-green-700 mb-1">Deal</div>
-                    <div class="text-2xl font-bold text-green-900">{{ $dealCount }}</div>
-                    @if($total > 0)
-                        <div class="text-xs text-green-600 mt-1">{{ round(($dealCount / $total) * 100, 1) }}%</div>
-                    @endif
-                </div>
                 <div class="flex-1 bg-yellow-50 rounded-lg shadow-sm p-4">
                     <div class="text-sm font-medium text-yellow-700 mb-1">Progress</div>
                     <div class="text-2xl font-bold text-yellow-900">{{ $progressCount }}</div>
                     @if($total > 0)
                         <div class="text-xs text-yellow-600 mt-1">{{ round(($progressCount / $total) * 100, 1) }}%</div>
-                    @endif
-                </div>
-                <div class="flex-1 bg-red-50 rounded-lg shadow-sm p-4">
-                    <div class="text-sm font-medium text-red-700 mb-1">Cancel</div>
-                    <div class="text-2xl font-bold text-red-900">{{ $cancelCount }}</div>
-                    @if($total > 0)
-                        <div class="text-xs text-red-600 mt-1">{{ round(($cancelCount / $total) * 100, 1) }}%</div>
                     @endif
                 </div>
                 <div class="flex-1 bg-purple-50 rounded-lg shadow-sm p-4">
@@ -74,6 +56,24 @@
                     @if($total > 0)
                         <div class="text-xs text-indigo-600 mt-1">{{ round(($mockupCount / $total) * 100, 1) }}%</div>
                     @endif
+                </div>
+                <div class="flex-1 bg-green-50 rounded-lg shadow-sm p-4">
+                    <div class="text-sm font-medium text-green-700 mb-1">Deal</div>
+                    <div class="text-2xl font-bold text-green-900">{{ $dealCount }}</div>
+                    @if($total > 0)
+                        <div class="text-xs text-green-600 mt-1">{{ round(($dealCount / $total) * 100, 1) }}%</div>
+                    @endif
+                </div>
+                <div class="flex-1 bg-red-50 rounded-lg shadow-sm p-4">
+                    <div class="text-sm font-medium text-red-700 mb-1">Cancel</div>
+                    <div class="text-2xl font-bold text-red-900">{{ $cancelCount }}</div>
+                    @if($total > 0)
+                        <div class="text-xs text-red-600 mt-1">{{ round(($cancelCount / $total) * 100, 1) }}%</div>
+                    @endif
+                </div>
+                <div class="flex-1 bg-white rounded-lg shadow-sm p-4">
+                    <div class="text-sm font-medium text-gray-600 mb-1">Total Klien</div>
+                    <div class="text-2xl font-bold text-gray-900">{{ $total }}</div>
                 </div>
             </div>
 

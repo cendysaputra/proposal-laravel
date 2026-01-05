@@ -58,28 +58,10 @@
 
                                 <!-- Statistics -->
                                 <div class="flex gap-2 mb-4">
-                                    <!-- Total Klien -->
-                                    <div class="flex-1 text-center p-2 bg-gray-50 rounded-lg">
-                                        <div class="text-xs text-gray-600 mb-1">Total</div>
-                                        <div class="text-lg font-bold text-gray-900">{{ $total }}</div>
-                                    </div>
-
-                                    <!-- Deal -->
-                                    <div class="flex-1 text-center p-2 bg-green-50 rounded-lg">
-                                        <div class="text-xs text-green-700 mb-1">Deal</div>
-                                        <div class="text-lg font-bold text-green-800">{{ $dealCount }}</div>
-                                    </div>
-
                                     <!-- Progress -->
                                     <div class="flex-1 text-center p-2 bg-yellow-50 rounded-lg">
                                         <div class="text-xs text-yellow-700 mb-1">Progress</div>
                                         <div class="text-lg font-bold text-yellow-800">{{ $progressCount }}</div>
-                                    </div>
-
-                                    <!-- Cancel -->
-                                    <div class="flex-1 text-center p-2 bg-red-50 rounded-lg">
-                                        <div class="text-xs text-red-700 mb-1">Cancel</div>
-                                        <div class="text-lg font-bold text-red-800">{{ $cancelCount }}</div>
                                     </div>
 
                                     <!-- Proposal -->
@@ -92,6 +74,24 @@
                                     <div class="flex-1 text-center p-2 bg-indigo-50 rounded-lg">
                                         <div class="text-xs text-indigo-700 mb-1">Mockup</div>
                                         <div class="text-lg font-bold text-indigo-800">{{ $mockupCount }}</div>
+                                    </div>
+
+                                    <!-- Deal -->
+                                    <div class="flex-1 text-center p-2 bg-green-50 rounded-lg">
+                                        <div class="text-xs text-green-700 mb-1">Deal</div>
+                                        <div class="text-lg font-bold text-green-800">{{ $dealCount }}</div>
+                                    </div>
+
+                                    <!-- Cancel -->
+                                    <div class="flex-1 text-center p-2 bg-red-50 rounded-lg">
+                                        <div class="text-xs text-red-700 mb-1">Cancel</div>
+                                        <div class="text-lg font-bold text-red-800">{{ $cancelCount }}</div>
+                                    </div>
+
+                                    <!-- Total Klien -->
+                                    <div class="flex-1 text-center p-2 bg-gray-50 rounded-lg">
+                                        <div class="text-xs text-gray-600 mb-1">Total</div>
+                                        <div class="text-lg font-bold text-gray-900">{{ $total }}</div>
                                     </div>
                                 </div>
 
